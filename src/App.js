@@ -6,6 +6,8 @@ import { BattleShip } from "./BattleShip";
 const P1 = new Player("Perry", "platypus", false);
 const P2 = new Player("Minochan", "monkey", true);
 const battleship = new BattleShip(P1, P2);
+P1.gameboard.receiveAttack(4,6)
+P1.gameboard.receiveAttack(0,0)
 
 function App() {
   const [counter, setCounter] = useState(0);
@@ -27,10 +29,14 @@ function App() {
             return (
               <div className="row">
                 {row.map((cell, c) => {
-                  if (cell.ship) {
-                    return <div className="cell">🍕</div>;
+                  if (cell.ship && cell.attacked) {
+                    return <div className="cell">👨🏿‍🦲</div>;
+                  } else if (cell.ship && !cell.attacked) {
+                    return <div className="cell">👨‍🦲</div>;
+                  }else if (!cell.ship && cell.attacked) {
+                    return <div className="cell">💨</div>;
                   } else {
-                    return <div className="cell">🐒</div>;
+                    return <div className="cell">🌱</div>;
                   }
                 })}
               </div>

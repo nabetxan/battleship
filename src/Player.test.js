@@ -26,7 +26,7 @@ test("create new player", () => {
           length: 3,
         },
       ],
-      missedShots: [],
+      attacks: [],
       size: 10,
     },
   });
@@ -55,7 +55,7 @@ test("create new player", () => {
           length: 3,
         },
       ],
-      missedShots: [],
+      attacks: [],
       size: 10,
     },
   });

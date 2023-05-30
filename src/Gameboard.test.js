@@ -3,7 +3,7 @@ import { Ship } from "./Ship";
 
 test("create gameboard", () => {
   const gameboard = new Gameboard();
-  expect(gameboard).toEqual({ ships: [], missedShots: [], size: 10 });
+  expect(gameboard).toEqual({ ships: [], attacks: [], size: 10 });
 });
 
 test("addShip", () => {
@@ -12,7 +12,7 @@ test("addShip", () => {
   gameboard.addShip(ship1);
   expect(gameboard).toEqual({
     ships: [{ length: 3, hits: 0, coordinates: [] }],
-    missedShots: [],
+    attacks: [],
     size: 10,
   });
 
@@ -23,7 +23,7 @@ test("addShip", () => {
       { length: 3, hits: 0, coordinates: [] },
       { length: 4, hits: 0, coordinates: [] },
     ],
-    missedShots: [],
+    attacks: [],
     size: 10,
   });
 });
@@ -60,9 +60,15 @@ test("receiveAttack", () => {
         ],
       },
     ],
-    missedShots: [[4, 4]],
+    attacks: [
+      [6, 5],
+      [4, 4],
+    ],
     size: 10,
   });
+  expect(gameboard.getAttackedAtPosition(6, 5)).toBe(true)
+  expect(gameboard.getAttackedAtPosition(5, 5)).toBe(false)
+  
 });
 
 test("is all ships sunk", () => {
