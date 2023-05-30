@@ -3,7 +3,7 @@ import { Ship } from "./Ship";
 
 test("create gameboard", () => {
   const gameboard = new Gameboard();
-  expect(gameboard).toEqual({ ships: [], missedShots: [] });
+  expect(gameboard).toEqual({ ships: [], missedShots: [], size: 10 });
 });
 
 test("addShip", () => {
@@ -13,6 +13,7 @@ test("addShip", () => {
   expect(gameboard).toEqual({
     ships: [{ length: 3, hits: 0, coordinates: [] }],
     missedShots: [],
+    size: 10,
   });
 
   const ship2 = new Ship(4);
@@ -23,6 +24,7 @@ test("addShip", () => {
       { length: 4, hits: 0, coordinates: [] },
     ],
     missedShots: [],
+    size: 10,
   });
 });
 
@@ -59,6 +61,7 @@ test("receiveAttack", () => {
       },
     ],
     missedShots: [[4, 4]],
+    size: 10,
   });
 });
 
