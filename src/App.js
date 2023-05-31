@@ -26,7 +26,7 @@ function App() {
       updateCounter();
       console.log("You Win");
     } else {
-      const getHit = battleship.P2.doAIMove();
+      const getHit = battleship.P2.doAIMove(battleship.P1.gameboard);
 
       battleship.P1.gameboard.receiveAttack(getHit[0], getHit[1]);
       updateCounter();

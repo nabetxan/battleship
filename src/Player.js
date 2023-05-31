@@ -29,12 +29,16 @@ export class Player {
     this.gameboard.addShip(ship5);
   }
 
-  doAIMove() {
+  doAIMove(p1gameboard) {
     const gameboardSize = this.gameboard.size;
-    const randomXY = [
-      Math.floor(Math.random() * gameboardSize),
-      Math.floor(Math.random() * gameboardSize),
-    ];
+    const pastXY = p1gameboard.attacks;
+    let randomXY = [];
+    do {
+      randomXY = [
+        Math.floor(Math.random() * gameboardSize),
+        Math.floor(Math.random() * gameboardSize),
+      ];
+    } while (pastXY.includes(randomXY));
     console.log(randomXY);
     return randomXY;
   }
