@@ -5,11 +5,15 @@
   color: white;
 }
 
-#gameboard {
+#gameboard-field{
+  display: flex;
+  justify-content: center;
+}
+#gameboard-p1, #gameboard-p2 {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin-top: 20px;
+  margin: 40px;
 }
 
 .row {
