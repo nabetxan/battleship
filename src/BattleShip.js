@@ -1,4 +1,3 @@
-
 export class BattleShip {
   constructor(P1, P2) {
     this.P1 = P1;

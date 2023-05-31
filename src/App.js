@@ -20,6 +20,17 @@ function App() {
     setCounter(counter + 1);
   };
 
+  const updateOnAttack = function (x, y) {
+    battleship.P2.gameboard.receiveAttack(x, y);
+    if (battleship.P2.gameboard.isAllShipSunk()) {
+      updateCounter();
+      console.log("You Win");
+    } else {
+      battleship.P2.doAIMove();
+      updateCounter();
+    }
+  };
+
   const currentGBP1 = battleship.P1.gameboard.currentGameboard();
   const currentGBP2 = battleship.P2.gameboard.currentGameboard();
 
@@ -30,10 +41,10 @@ function App() {
         <div className="name">{battleship.P2.name}</div>
         <div id="gameboard-field">
           <div id="gameboard-p1">
-            {currentGBP1.map((row, r) => {
+            {currentGBP1.map((row, y) => {
               return (
                 <div className="row">
-                  {row.map((cell, c) => {
+                  {row.map((cell, x) => {
                     if (cell.ship && cell.attacked) {
                       return <div className="cell">👨🏿‍🦲</div>;
                     } else if (cell.ship && !cell.attacked) {
@@ -50,11 +61,10 @@ function App() {
           </div>
 
           <div id="gameboard-p2">
-            {currentGBP2.map((row, r) => {
+            {currentGBP2.map((row, y) => {
               return (
                 <div className="row">
-                  {row.map((cell, c) => {
-                    console.log(cell.ship);
+                  {row.map((cell, x) => {
                     if (cell.ship?.isSunk()) {
                       return <div className="cell">👨🏿‍🦲</div>;
                     }
@@ -64,7 +74,14 @@ function App() {
                     } else if (!cell.ship && cell.attacked) {
                       return <div className="cell">💨</div>;
                     } else {
-                      return <div className="cell">🌱</div>;
+                      return (
+                        <div
+                          className="cell"
+                          onClick={() => updateOnAttack(x, y)}
+                        >
+                          🌱
+                        </div>
+                      );
                     }
                   })}
                 </div>
