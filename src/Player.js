@@ -32,13 +32,16 @@ export class Player {
   doAIMove(p1gameboard) {
     const gameboardSize = this.gameboard.size;
     const pastXY = p1gameboard.attacks;
+    console.log(pastXY);
     let randomXY = [];
     do {
       randomXY = [
         Math.floor(Math.random() * gameboardSize),
         Math.floor(Math.random() * gameboardSize),
       ];
-    } while (pastXY.includes(randomXY));
+    } while (
+      pastXY.some((past) => past[0] === randomXY[0] && past[1] === randomXY[1])
+    );
     console.log(randomXY);
     return randomXY;
   }
