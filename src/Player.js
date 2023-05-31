@@ -30,6 +30,12 @@ export class Player {
   }
 
   doAIMove() {
-    ///
+    const gameboardSize = this.gameboard.size;
+    const randomXY = [
+      Math.floor(Math.random() * gameboardSize),
+      Math.floor(Math.random() * gameboardSize),
+    ];
+    console.log(randomXY);
+    return randomXY;
   }
 }
