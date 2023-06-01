@@ -30,19 +30,15 @@ export class Player {
   }
 
   doAIMove(p1gameboard) {
-    const gameboardSize = this.gameboard.size;
-    const pastXY = p1gameboard.attacks;
-    console.log(pastXY);
-    let randomXY = [];
-    do {
-      randomXY = [
-        Math.floor(Math.random() * gameboardSize),
-        Math.floor(Math.random() * gameboardSize),
-      ];
-    } while (
-      pastXY.some((past) => past[0] === randomXY[0] && past[1] === randomXY[1])
-    );
-    console.log(randomXY);
-    return randomXY;
+    const remainingCells = [];
+    for (let x = 0; x < this.gameboard.size; x++) {
+      for (let y = 0; y < this.gameboard.size; y++) {
+        if (!p1gameboard.getAttackedAtPosition(x, y)) {
+          remainingCells.push([x, y]);
+        }
+      }
+    }
+    const random = Math.floor(Math.random() * (remainingCells.length - 1));
+    return remainingCells[random];
   }
 }

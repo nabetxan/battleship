@@ -33,7 +33,6 @@ export class Gameboard {
         });
       }
     }
-    // console.log(board);
     return board;
   }
 
