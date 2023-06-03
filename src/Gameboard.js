@@ -56,4 +56,22 @@ export class Gameboard {
   isAllShipSunk() {
     return this.ships.every((ship) => ship.isSunk());
   }
+
+  // get next Ship Length from current Ship Array Length
+  getShipLength() {
+    const currentShipArrayLength = this.ships.length;
+    if (currentShipArrayLength === 0) {
+      return 2;
+    } else if (currentShipArrayLength === 1) {
+      return 3;
+    } else if (currentShipArrayLength === 2) {
+      return 3;
+    } else if (currentShipArrayLength === 3) {
+      return 4;
+    } else if (currentShipArrayLength === 4) {
+      return 5;
+    } else {
+      return;
+    }
+  }
 }

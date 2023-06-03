@@ -23,64 +23,50 @@ export class Player {
   }
 
   placeShip(battleship, x, y, direction) {
-    const getShipLength = function () {
-      const shipArrayLength = battleship.P1.gameboard.ships.length;
-      if (shipArrayLength === 0) {
-        return 2;
-      } else if (shipArrayLength === 1) {
-        return 3;
-      } else if (shipArrayLength === 2) {
-        return 3;
-      } else if (shipArrayLength === 3) {
-        return 4;
-      } else if (shipArrayLength === 4) {
-        return 5;
-      } else {
-        return;
-      }
-    };
+    const shipLength = battleship.P1.gameboard.getShipLength();
 
-    // you cannot place a ship if there's another ship
     // you cannot place a ship if it exceeds the board
+    // you cannot place a ship if there's another ship
 
     let isOutOfBoard = false;
+    let isTaken = false;
     const coordinatesToBeSet = [];
+    const shipArray = battleship.P1.gameboard.ships;
+    const shipArrayLength = shipArray.length;
+    const gameboardSize = battleship.P1.gameboard.size;
 
-    const shipArrayLength = battleship.P1.gameboard.ships.length;
-    console.log(shipArrayLength, direction[shipArrayLength]);
     if (direction[shipArrayLength] === "x") {
-      for (let i = x; i < getShipLength() + x; i++) {
+      for (let i = x; i < shipLength + x; i++) {
         coordinatesToBeSet.push([i, y]);
-        if (i > Gameboard.size) {
-          console.log(Gameboard.size);
+        if (i > gameboardSize - 1) {
           isOutOfBoard = true;
         }
       }
     }
 
     if (direction[shipArrayLength] === "y") {
-      for (let i = y; i < getShipLength() + y; i++) {
+      for (let i = y; i < shipLength + y; i++) {
         coordinatesToBeSet.push([x, i]);
-        if (i > Gameboard.size) {
-          console.log(Gameboard.size);
+        if (i > gameboardSize - 1) {
           isOutOfBoard = true;
         }
       }
     }
-    console.log("coordinatesToBeSet", coordinatesToBeSet);
-    console.log("p1 ships coordinates", battleship.P1.gameboard.ships);
 
-    let isTaken = false;
-
-    if (battleship.P1.gameboard.ships.length !== 0) {
+    if (shipArrayLength !== 0) {
       isTaken = coordinatesToBeSet.some((cooA) => {
-        return battleship.P1.gameboard.ships.some((ship) => {
+        return shipArray.some((ship) => {
           return ship.coordinates.some((cooB) => {
             return cooA[0] === cooB[0] && cooA[1] === cooB[1];
           });
         });
       });
     }
+
+    console.log("coordinatesToBeSet", coordinatesToBeSet);
+    console.log("isTaken", isTaken);
+    console.log("isOutOfBoard", isOutOfBoard);
+
     if (isTaken || isOutOfBoard) {
       // do nothing
       return;
@@ -92,24 +78,24 @@ export class Player {
       const ship5 = new Ship(5);
 
       // add ship
-      if (battleship.P1.gameboard.ships.length === 0) {
+      if (shipArrayLength === 0) {
         ship1.setCoordinates(x, y, direction[0]);
         battleship.P1.gameboard.addShip(ship1);
-      } else if (battleship.P1.gameboard.ships.length === 1) {
+      } else if (shipArrayLength === 1) {
         ship2.setCoordinates(x, y, direction[1]);
         battleship.P1.gameboard.addShip(ship2);
-      } else if (battleship.P1.gameboard.ships.length === 2) {
+      } else if (shipArrayLength === 2) {
         ship3.setCoordinates(x, y, direction[2]);
         battleship.P1.gameboard.addShip(ship3);
-      } else if (battleship.P1.gameboard.ships.length === 3) {
+      } else if (shipArrayLength === 3) {
         ship4.setCoordinates(x, y, direction[3]);
         battleship.P1.gameboard.addShip(ship4);
-      } else if (battleship.P1.gameboard.ships.length === 4) {
+      } else if (shipArrayLength === 4) {
         ship5.setCoordinates(x, y, direction[4]);
         battleship.P1.gameboard.addShip(ship5);
       }
 
-      console.log(battleship.P1.gameboard.ships);
+      console.log("p1 ships coordinates", battleship.P1.gameboard.ships);
     }
   }
 
