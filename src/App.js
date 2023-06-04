@@ -44,19 +44,22 @@ function App() {
   return (
     <div className="App">
       <header id="App-header">
-        <div id="title"> KAKURENBO BATTLE</div>
-        <div id="players-info-field">
-          <div className="name">{battleship.P1.name}</div>
-          <div>vs</div>
-          <div className="name">{battleship.P2.name}</div>
+        <div id="title" className="font-xxLarge">
+          KAKURENBO BATTLE
+        </div>
+        <div id="players-info-field" className="margin20">
+          <div className="name font-large">{battleship.P1.name}</div>
+          <div className="font-large">vs</div>
+          <div className="name font-large">{battleship.P2.name}</div>
         </div>
       </header>
 
       <div id="App-body">
+        {/* <div id="instruction-field" className="flex-justify-center"> */}
         {/* when the game is "not-started", show instruction. */}
 
         {gameStatus === "not-started" ? (
-          <div className="instruction">
+          <div className="font-normal height80 margin20">
             <div>Are you ready to play hide-and-seek ("Kakurenbo") game? </div>
             <div> Decide where to hide and place your piece anywhere.</div>
             <div>
@@ -68,33 +71,26 @@ function App() {
         {/* when all the pieces are in place, the Start button appears. */}
 
         {gameStatus === "ready-to-play" ? (
-          <button
-            id="start-btn"
-            onClick={() => {
-              setGameStatus("on-game");
-            }}
-          >
-            Start
-          </button>
+          <div className="height80 margin20">
+            <button
+              id="start-btn"
+              className="font-xLarge"
+              onClick={() => {
+                setGameStatus("on-game");
+              }}
+            >
+              Start
+            </button>
+          </div>
         ) : null}
-
-        {/* during the game, Restart button appears. */}
-
-        {gameStatus === "on-game" ? (
-          <button
-            id="start-btn"
-            onClick={() => {
-              setGameStatus("not-started");
-            }}
-          >
-            Restart
-          </button>
-        ) : null}
-
-        <div id="gameboard-field">
+        {/* </div> */}
+        <div id="gameboard-field" className="flex-justify-center">
           {gameStatus === "not-started" || gameStatus === "ready-to-play" ? (
-            <div id="gameboard-field-for-preparation">
-              <div id="rotate">
+            <div
+              id="gameboard-field-for-preparation"
+              className="flex-justify-center"
+            >
+              <div id="rotate" className="flex-justify-center margin20">
                 <img
                   src={platypus}
                   alt="platypus"
@@ -107,11 +103,14 @@ function App() {
               </div>
               <div id="gameboard-preparation">
                 {currentGBP1.map((row, y) => (
-                  <div className="row" key={y}>
+                  <div className="row flex-justify-center" key={y}>
                     {row.map((cell, x) => {
                       if (cell.ship) {
                         return (
-                          <div className="cell" key={`${x}${y}`}>
+                          <div
+                            className="cell font-normal flex-justify-center"
+                            key={`${x}${y}`}
+                          >
                             🐒
                           </div>
                         );
@@ -123,7 +122,9 @@ function App() {
                         return (
                           <div
                             className={`cell ${
-                              isHighlightCell ? "highlight" : ""
+                              isHighlightCell
+                                ? "highlight font-normal flex-justify-center"
+                                : "font-normal flex-justify-center"
                             }`}
                             key={`${x}${y}`}
                             onClick={() => {
@@ -143,9 +144,7 @@ function App() {
                             onMouseLeave={() => {
                               setCurrentCell([]);
                             }}
-                          >
-                            -
-                          </div>
+                          ></div>
                         );
                       }
                     })}
@@ -157,82 +156,119 @@ function App() {
 
           {gameStatus === "on-game" ? (
             <div>
-              <div id="gameboard-p1">
-                {currentGBP1.map((row, y) => {
-                  return (
-                    <div className="row">
-                      {row.map((cell, x) => {
-                        if (cell.ship && cell.attacked) {
-                          return (
-                            <div className="cell" key={`${x}${y}`}>
-                              👨🏿‍🦲
-                            </div>
-                          );
-                        } else if (cell.ship && !cell.attacked) {
-                          return (
-                            <div className="cell" key={`${x}${y}`}>
-                              🐒
-                            </div>
-                          );
-                        } else if (!cell.ship && cell.attacked) {
-                          return (
-                            <div className="cell" key={`${x}${y}`}>
-                              ✷
-                            </div>
-                          );
-                        } else {
-                          return (
-                            <div className="cell" key={`${x}${y}`}>
-                              🌱
-                            </div>
-                          );
-                        }
-                      })}
-                    </div>
-                  );
-                })}
+              <div id="on-game-field" className="flex-justify-center">
+                <div id="gameboard-p1" className="flex-justify-center margin20">
+                  {currentGBP1.map((row, y) => {
+                    return (
+                      <div className="row flex-justify-center">
+                        {row.map((cell, x) => {
+                          if (cell.ship && cell.attacked) {
+                            return (
+                              <div
+                                className="cell font-normal flex-justify-center"
+                                key={`${x}${y}`}
+                              >
+                                👨🏿‍🦲
+                              </div>
+                            );
+                          } else if (cell.ship && !cell.attacked) {
+                            return (
+                              <div
+                                className="cell font-normal flex-justify-center"
+                                key={`${x}${y}`}
+                              >
+                                🐒
+                              </div>
+                            );
+                          } else if (!cell.ship && cell.attacked) {
+                            return (
+                              <div
+                                className="cell font-normal flex-justify-center"
+                                key={`${x}${y}`}
+                              >
+                                ✷
+                              </div>
+                            );
+                          } else {
+                            return (
+                              <div
+                                className="cell font-normal flex-justify-center"
+                                key={`${x}${y}`}
+                              >
+                                🌱
+                              </div>
+                            );
+                          }
+                        })}
+                      </div>
+                    );
+                  })}
+                </div>
+
+                <div id="gameboard-p2" className="flex-justify-center margin20">
+                  {currentGBP2.map((row, y) => {
+                    return (
+                      <div className="row flex-justify-center">
+                        {row.map((cell, x) => {
+                          if (cell.ship?.isSunk()) {
+                            return (
+                              <div
+                                className="cell font-normal flex-justify-center"
+                                key={`p2${x}${y}`}
+                              >
+                                👨🏿‍🦲
+                              </div>
+                            );
+                          }
+
+                          if (cell.ship && cell.attacked) {
+                            return (
+                              <div
+                                className="cell font-normal flex-justify-center"
+                                key={`p2${x}${y}`}
+                              >
+                                ❗️
+                              </div>
+                            );
+                          } else if (!cell.ship && cell.attacked) {
+                            return (
+                              <div
+                                className="cell font-normal flex-justify-center"
+                                key={`p2${x}${y}`}
+                              >
+                                ✷
+                              </div>
+                            );
+                          } else {
+                            return (
+                              <div
+                                className="cell font-normal flex-justify-center"
+                                onClick={() => updateOnAttack(x, y)}
+                                key={`p2${x}${y}`}
+                              >
+                                🌱
+                              </div>
+                            );
+                          }
+                        })}
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
-
-              <div id="gameboard-p2">
-                {currentGBP2.map((row, y) => {
-                  return (
-                    <div className="row">
-                      {row.map((cell, x) => {
-                        if (cell.ship?.isSunk()) {
-                          return (
-                            <div className="cell" key={`p2${x}${y}`}>
-                              👨🏿‍🦲
-                            </div>
-                          );
-                        }
-
-                        if (cell.ship && cell.attacked) {
-                          return (
-                            <div className="cell" key={`p2${x}${y}`}>
-                              ❗️
-                            </div>
-                          );
-                        } else if (!cell.ship && cell.attacked) {
-                          return (
-                            <div className="cell" key={`p2${x}${y}`}>
-                              ✷
-                            </div>
-                          );
-                        } else {
-                          return (
-                            <div
-                              className="cell"
-                              onClick={() => updateOnAttack(x, y)}
-                              key={`p2${x}${y}`}
-                            >
-                              🌱
-                            </div>
-                          );
-                        }
-                      })}
-                    </div>
-                  );
-                })}
+              <div>
+                {/* during the game, Restart button appears. */}
+                {gameStatus === "on-game" ? (
+                  <button
+                    id="restart-btn"
+                    className="font-xLarge"
+                    onClick={() => {
+                      setGameStatus("not-started");
+                    }}
+                  >
+                    Restart
+                  </button>
+                ) : null}
               </div>
             </div>
           ) : null}
