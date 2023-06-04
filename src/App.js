@@ -2,22 +2,16 @@ import "./App.css";
 import { useState } from "react";
 import { Player } from "./Player";
 import { BattleShip } from "./BattleShip";
+import platypus from "./vector-platypus.png";
 
-const P1 = new Player("Perry", "platypus", false);
-const P2 = new Player("Minochan", "monkey", true);
+const P1 = new Player("Platypus", "platypus", false);
+const P2 = new Player("Monkey", "monkey", true);
 const battleship = new BattleShip(P1, P2);
-// P1.gameboard.receiveAttack(4, 6);
-// P1.gameboard.receiveAttack(0, 0);
-// P2.gameboard.receiveAttack(0, 0);
-// P2.gameboard.receiveAttack(1, 0);
-// P2.gameboard.receiveAttack(3, 0);
-// P2.gameboard.receiveAttack(4, 0);
 
 function App() {
   const [counter, setCounter] = useState(0);
   const [gameStatus, setGameStatus] = useState("not-started");
-  // eslint-disable-next-line
-  const [direction, setDirection] = useState(["x", "y", "x", "y", "x"]);
+  const [direction, setDirection] = useState("y");
 
   const updateCounter = function () {
     setCounter(counter + 1);
@@ -41,22 +35,44 @@ function App() {
 
   return (
     <div className="App">
-      <header className="App-header">
-        <div className="name">{battleship.P1.name}</div>
-        <div className="name">{battleship.P2.name}</div>
+      <header id="App-header">
+        <div id="title"> KAKURENBO BATTLE</div>
+        <div id="players-info-field">
+          <div className="name">{battleship.P1.name}</div>
+          <div>vs</div>
+          <div className="name">{battleship.P2.name}</div>
+        </div>
+      </header>
 
-        {gameStatus !== "on-game" ? (
+      <div id="App-body">
+        {/* when the game is "not-started", show instruction. */}
+
+        {gameStatus === "not-started" ? (
+          <div className="instruction">
+            <div>Are you ready to play hide-and-seek ("Kakurenbo") game? </div>
+            <div> Decide where to hide and place your piece anywhere.</div>
+            <div>
+              You can rotate the piece by clicking the button on the left side{" "}
+            </div>
+          </div>
+        ) : null}
+
+        {/* when all the pieces are in place, the Start button appears. */}
+
+        {gameStatus === "ready-to-play" ? (
           <button
-            id="get-ready-btn"
+            id="start-btn"
             onClick={() => {
-              battleship.P1.getReady(battleship);
-              setGameStatus("on-game");
+              // battleship.P1.junbi(battleship);
+              setGameStatus("not-started");
               updateCounter();
             }}
           >
-            START
+            Start
           </button>
         ) : null}
+
+        {/* during the game, Restart button appears. */}
 
         {gameStatus === "on-game" ? (
           <button
@@ -73,38 +89,50 @@ function App() {
 
         <div id="gameboard-field">
           {gameStatus === "not-started" ? (
-            <div id="gameboard-preparation">
-              {currentGBP1.map((row, y) => (
-                <div className="row" key={y}>
-                  {row.map((cell, x) => {
-                    if (cell.ship) {
-                      return (
-                        <div className="cell" key={`${x}${y}`}>
-                          🐒
-                        </div>
-                      );
-                    } else {
-                      return (
-                        <div
-                          className="cell"
-                          key={`${x}${y}`}
-                          onClick={() => {
-                            battleship.P1.placeShip(
-                              battleship,
-                              x,
-                              y,
-                              direction
-                            );
-                            updateCounter();
-                          }}
-                        >
-                          -
-                        </div>
-                      );
-                    }
-                  })}
-                </div>
-              ))}
+            <div id="gameboard-field-for-preparation">
+              <div id="rotate">
+                <img
+                  src={platypus}
+                  alt="platypus"
+                  id="rotate-img"
+                  className={direction === "x" ? "rotated" : "not-rotated"}
+                  onClick={() => {
+                    direction === "x" ? setDirection("y") : setDirection("x");
+                  }}
+                ></img>
+              </div>
+              <div id="gameboard-preparation">
+                {currentGBP1.map((row, y) => (
+                  <div className="row" key={y}>
+                    {row.map((cell, x) => {
+                      if (cell.ship) {
+                        return (
+                          <div className="cell" key={`${x}${y}`}>
+                            🐒
+                          </div>
+                        );
+                      } else {
+                        return (
+                          <div
+                            className="cell"
+                            key={`${x}${y}`}
+                            onClick={() => {
+                              battleship.P1.placeShip(x, y, direction);
+
+                              // const copyDirection = [...direction];
+                              // copyDirection.push(directionPreset);
+                              // setDirection(copyDirection);
+                              updateCounter();
+                            }}
+                          >
+                            -
+                          </div>
+                        );
+                      }
+                    })}
+                  </div>
+                ))}
+              </div>
             </div>
           ) : null}
 
@@ -190,7 +218,7 @@ function App() {
             </div>
           ) : null}
         </div>
-      </header>
+      </div>
     </div>
   );
 }
