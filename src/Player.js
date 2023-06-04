@@ -22,18 +22,11 @@ export class Player {
     return remainingCells[random];
   }
 
-  placeShip(x, y, direction) {
-    const shipLength = this.gameboard.getShipLength();
-
-    // you cannot place a ship if it exceeds the board
-    // you cannot place a ship if there's another ship
-
-    let isOutOfBoard = false;
-    let isTaken = false;
+  placeShipCoordinates(x, y, direction) {
     const coordinatesToBeSet = [];
-    const shipArray = this.gameboard.ships;
-    const shipArrayLength = shipArray.length;
+    const shipLength = this.gameboard.getShipLength();
     const gameboardSize = this.gameboard.size;
+    let isOutOfBoard = false;
 
     if (direction === "x") {
       for (let i = x; i < shipLength + x; i++) {
@@ -52,6 +45,22 @@ export class Player {
         }
       }
     }
+
+    if (isOutOfBoard) {
+      return [];
+    } else {
+      return coordinatesToBeSet;
+    }
+  }
+
+  placeShip(x, y, direction) {
+    // you cannot place a ship if it exceeds the board
+    // you cannot place a ship if there's another ship
+    let isTaken = false;
+    const coordinatesToBeSet = this.placeShipCoordinates(x, y, direction);
+    const isOutOfBoard = coordinatesToBeSet.length < 1;
+    const shipArray = this.gameboard.ships;
+    const shipArrayLength = shipArray.length;
 
     if (shipArrayLength !== 0) {
       isTaken = coordinatesToBeSet.some((cooA) => {
@@ -78,7 +87,7 @@ export class Player {
         ship.setCoordinates(x, y, direction);
         this.gameboard.addShip(ship);
       }
-      
+
       console.log("p1 ships coordinates", this.gameboard.ships);
     }
   }

@@ -12,6 +12,7 @@ function App() {
   const [counter, setCounter] = useState(0);
   const [gameStatus, setGameStatus] = useState("not-started");
   const [direction, setDirection] = useState("y");
+  const [currentCell, setCurrentCell] = useState([]);
 
   const updateCounter = function () {
     setCounter(counter + 1);
@@ -112,17 +113,32 @@ function App() {
                           </div>
                         );
                       } else {
+                        const isHighlightCell = currentCell.some(
+                          (cell) => cell[0] === x && cell[1] === y
+                        );
+
                         return (
                           <div
-                            className="cell"
+                            className={`cell ${
+                              isHighlightCell ? "highlight" : ""
+                            }`}
                             key={`${x}${y}`}
                             onClick={() => {
                               battleship.P1.placeShip(x, y, direction);
-
-                              // const copyDirection = [...direction];
-                              // copyDirection.push(directionPreset);
-                              // setDirection(copyDirection);
                               updateCounter();
+                            }}
+                            onMouseEnter={() => {
+                              const coordinatesToBeSet =
+                                battleship.P1.placeShipCoordinates(
+                                  x,
+                                  y,
+                                  direction
+                                );
+
+                              setCurrentCell(coordinatesToBeSet);
+                            }}
+                            onMouseLeave={() => {
+                              setCurrentCell([]);
                             }}
                           >
                             -
