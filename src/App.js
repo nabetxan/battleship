@@ -1,5 +1,5 @@
 import "./App.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Player } from "./Player";
 import { BattleShip } from "./BattleShip";
 import platypus from "./vector-platypus.png";
@@ -34,6 +34,13 @@ function App() {
   const currentGBP1 = battleship.P1.gameboard.currentGameboard();
   const currentGBP2 = battleship.P2.gameboard.currentGameboard();
 
+  const nextShipLength = battleship.P1.gameboard.getShipLength();
+  useEffect(() => {
+    if (!nextShipLength) {
+      setGameStatus("ready-to-play");
+    }
+  }, [nextShipLength]);
+
   return (
     <div className="App">
       <header id="App-header">
@@ -64,9 +71,7 @@ function App() {
           <button
             id="start-btn"
             onClick={() => {
-              // battleship.P1.junbi(battleship);
-              setGameStatus("not-started");
-              updateCounter();
+              setGameStatus("on-game");
             }}
           >
             Start
@@ -79,9 +84,7 @@ function App() {
           <button
             id="start-btn"
             onClick={() => {
-              // battleship.P1.junbi(battleship);
               setGameStatus("not-started");
-              updateCounter();
             }}
           >
             Restart
@@ -89,7 +92,7 @@ function App() {
         ) : null}
 
         <div id="gameboard-field">
-          {gameStatus === "not-started" ? (
+          {gameStatus === "not-started" || gameStatus === "ready-to-play" ? (
             <div id="gameboard-field-for-preparation">
               <div id="rotate">
                 <img
