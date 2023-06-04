@@ -22,6 +22,53 @@ export class Player {
     return remainingCells[random];
   }
 
+  placeShipCoordinatesForAI() {
+    let shipArray = this.gameboard.ships;
+    let shipArrayLength = shipArray.length;
+    let coordinatesToBeSet = [];
+    let nextShipLength = 0;
+    let isTaken = false;
+
+    do {
+      const randomX = Math.floor(Math.random() * this.gameboard.size);
+      const randomY = Math.floor(Math.random() * this.gameboard.size);
+      const randomDirection = Math.floor(Math.random() * 2) === 0 ? "x" : "y";
+
+      coordinatesToBeSet = this.placeShipCoordinates(
+        randomX,
+        randomY,
+        randomDirection
+      );
+
+      if (coordinatesToBeSet.length < 1) {
+        continue;
+      }
+
+      isTaken = coordinatesToBeSet.some((cooA) => {
+        return shipArray.some((ship) => {
+          return ship.coordinates.some((cooB) => {
+            return cooA[0] === cooB[0] && cooA[1] === cooB[1];
+          });
+        });
+      });
+
+      if (isTaken) {
+        continue;
+      }
+
+      nextShipLength = this.gameboard.getShipLength();
+      const ship = new Ship(nextShipLength);
+      ship.setCoordinates(randomX, randomY, randomDirection);
+      console.log(randomX, randomY, randomDirection);
+  
+      this.gameboard.addShip(ship);
+      shipArrayLength = shipArray.length;
+      coordinatesToBeSet = [];
+      nextShipLength = 0;
+      isTaken = false;
+    } while (shipArrayLength < 5);
+  }
+
   placeShipCoordinates(x, y, direction) {
     const coordinatesToBeSet = [];
     const shipLength = this.gameboard.getShipLength();
@@ -72,10 +119,6 @@ export class Player {
       });
     }
 
-    console.log("coordinatesToBeSet", coordinatesToBeSet);
-    console.log("isTaken", isTaken);
-    console.log("isOutOfBoard", isOutOfBoard);
-
     if (isTaken || isOutOfBoard) {
       // do nothing
       return;
@@ -87,8 +130,6 @@ export class Player {
         ship.setCoordinates(x, y, direction);
         this.gameboard.addShip(ship);
       }
-
-      console.log("p1 ships coordinates", this.gameboard.ships);
     }
   }
 }

@@ -25,7 +25,7 @@ function App() {
       console.log("You Win");
     } else {
       const getHit = battleship.P2.doAIMove(battleship.P1.gameboard);
-      console.log(getHit, getHit[0], getHit[1]);
+      // console.log(getHit, getHit[0], getHit[1]);
       battleship.P1.gameboard.receiveAttack(getHit[0], getHit[1]);
       updateCounter();
     }
@@ -76,6 +76,7 @@ function App() {
               id="start-btn"
               className="font-xLarge"
               onClick={() => {
+                battleship.P2.placeShipCoordinatesForAI();
                 setGameStatus("on-game");
               }}
             >
@@ -83,7 +84,6 @@ function App() {
             </button>
           </div>
         ) : null}
-        {/* </div> */}
         <div id="gameboard-field" className="flex-justify-center">
           {gameStatus === "not-started" || gameStatus === "ready-to-play" ? (
             <div
@@ -219,8 +219,8 @@ function App() {
                                 👨🏿‍🦲
                               </div>
                             );
-                          }
-
+                          } 
+                          
                           if (cell.ship && cell.attacked) {
                             return (
                               <div
