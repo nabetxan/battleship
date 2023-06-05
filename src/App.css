@@ -125,11 +125,63 @@
   height: auto;
 }
 
-.cell-image-size2 {
+.platypus-cell {
+  background-color: rgb(31, 171, 71);
+}
+
+.platypus-cell-image {
   z-index: 1;
-  width: 60px;
-  height: auto;
   overflow: visible;
   position: relative;
+}
+
+.img-rotated {
+  rotate: 90deg;
+  height: 30px;
+}
+.size2 {
+  width: 60px;
+  height: auto;
   left: 5px;
+}
+.size2.img-rotated {
+  left: -12px;
+  top: 18px;
+  width: 60px;
+}
+
+.size3 {
+  width: 90px;
+  height: auto;
+  left: 12px;
+}
+
+.size3.img-rotated {
+  left: -28px;
+  top: 35px;
+  width: 90px;
+}
+
+.size4 {
+  width: 120px;
+  height: auto;
+  left: 12px;
+}
+
+.size4.img-rotated {
+  left: -43px;
+  top: 55px;
+  width: 120px;
+}
+
+.size5 {
+  width: 150px;
+  height: auto;
+  left: 12px;
+}
+
+.size5.img-rotated {
+  left: -59px;
+  top: 75px;
+  width: 150px;
 }

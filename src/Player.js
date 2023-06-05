@@ -28,7 +28,8 @@ export class Player {
     let coordinatesToBeSet = [];
     let nextShipLength = 0;
     let isTaken = false;
-
+    let shipIndex = 0
+    
     do {
       const randomX = Math.floor(Math.random() * this.gameboard.size);
       const randomY = Math.floor(Math.random() * this.gameboard.size);
@@ -56,11 +57,13 @@ export class Player {
         continue;
       }
 
+
+      shipIndex = shipIndex + 1
       nextShipLength = this.gameboard.getShipLength();
-      const ship = new Ship(nextShipLength);
+      const ship = new Ship(nextShipLength, shipIndex);
       ship.setCoordinates(randomX, randomY, randomDirection);
       console.log(randomX, randomY, randomDirection);
-  
+
       this.gameboard.addShip(ship);
       shipArrayLength = shipArray.length;
       coordinatesToBeSet = [];
@@ -126,10 +129,13 @@ export class Player {
       const nextShipLength = this.gameboard.getShipLength();
 
       if (nextShipLength) {
-        const ship = new Ship(nextShipLength);
+        const ship = new Ship(nextShipLength, shipArrayLength);
         ship.setCoordinates(x, y, direction);
+
         this.gameboard.addShip(ship);
+
       }
+      
     }
   }
 }

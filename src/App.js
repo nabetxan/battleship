@@ -4,7 +4,6 @@ import { Player } from "./Player";
 import { BattleShip } from "./BattleShip";
 import platypus from "./vector-platypus.png";
 import platypusFoot from "./platypus-foot.png";
-import divRefsize2 from "./platypus-size2.png";
 
 const P1 = new Player("Platypus", "platypus", false);
 const P2 = new Player("Monkey", "monkey", true);
@@ -27,7 +26,6 @@ function App() {
       console.log("You Win");
     } else {
       const getHit = battleship.P2.doAIMove(battleship.P1.gameboard);
-      // console.log(getHit, getHit[0], getHit[1]);
       battleship.P1.gameboard.receiveAttack(getHit[0], getHit[1]);
       updateCounter();
     }
@@ -57,15 +55,19 @@ function App() {
       </header>
 
       <div id="App-body">
-        {/* <div id="instruction-field" className="flex-justify-center"> */}
         {/* when the game is "not-started", show instruction. */}
 
         {gameStatus === "not-started" ? (
           <div className="font-normal height80 margin20">
-            <div>Are you ready to play hide-and-seek ("Kakurenbo") game? </div>
-            <div> Decide where to hide and place your piece anywhere.</div>
             <div>
-              You can rotate the piece by clicking the button on the left side{" "}
+              Are you ready to play the Hide-and-Seek game ("Kakurenbo")?
+            </div>
+            <div>
+              Decide where you want to hide and place your piece anywhere on the
+              board.
+            </div>
+            <div>
+              You can rotate the piece by clicking the button on the left side.
             </div>
           </div>
         ) : null}
@@ -107,25 +109,28 @@ function App() {
                 {currentGBP1.map((row, y) => (
                   <div className="row flex-justify-center" key={y}>
                     {row.map((cell, x) => {
-                      console.log(cell, x);
                       if (cell.ship) {
                         if (
                           cell.ship.coordinates[0][0] === x &&
                           cell.ship.coordinates[0][1] === y
                         ) {
+                          const data = cell.ship.getImage();
+                          const imageSrc = data.src;
+                          const imageClassName = data.className;
+
                           return (
-                            <div className="cell font-normal">
+                            <div className="cell platypus-cell">
                               <img
-                                src={divRefsize2}
-                                className="cell-image-size2"
-                                alt="platypus size2"
+                                src={imageSrc}
+                                className={imageClassName}
+                                alt="platypus piece"
                               ></img>
                             </div>
                           );
                         } else {
                           return (
                             <div
-                              className="cell font-normal flex-justify-center"
+                              className="cell font-normal flex-justify-center platypus-cell"
                               key={`${x}${y}`}
                             ></div>
                           );
@@ -134,21 +139,6 @@ function App() {
                         const isHighlightCell = currentCell.some(
                           (cell) => cell[0] === x && cell[1] === y
                         );
-
-                        // if (cell.ship) {
-                        //   return (
-                        //     <div
-                        //       className="cell font-normal flex-justify-center"
-                        //       key={`${x}${y}`}
-                        //     >
-                        //       🐒
-                        //     </div>
-                        //   );
-                        // } else {
-                        //   const isHighlightCell = currentCell.some(
-                        //     (cell) => cell[0] === x && cell[1] === y
-                        //   );
-
                         return (
                           <div
                             className={`cell ${
@@ -195,7 +185,7 @@ function App() {
                           if (cell.ship && cell.attacked) {
                             return (
                               <div
-                                className="cell font-normal flex-justify-center"
+                                className="cell font-normal flex-justify-center platypus-cell"
                                 key={`${x}${y}`}
                               >
                                 👨🏿‍🦲
@@ -204,7 +194,7 @@ function App() {
                           } else if (cell.ship && !cell.attacked) {
                             return (
                               <div
-                                className="cell font-normal flex-justify-center"
+                                className="cell font-normal flex-justify-center platypus-cell"
                                 key={`${x}${y}`}
                               >
                                 🐒
