@@ -3,7 +3,8 @@ import { useEffect, useState } from "react";
 import { Player } from "./Player";
 import { BattleShip } from "./BattleShip";
 import platypus from "./vector-platypus.png";
-import platypusFoot from "./platypus-foot.png"
+import platypusFoot from "./platypus-foot.png";
+import divRefsize2 from "./platypus-size2.png";
 
 const P1 = new Player("Platypus", "platypus", false);
 const P2 = new Player("Monkey", "monkey", true);
@@ -106,19 +107,47 @@ function App() {
                 {currentGBP1.map((row, y) => (
                   <div className="row flex-justify-center" key={y}>
                     {row.map((cell, x) => {
+                      console.log(cell, x);
                       if (cell.ship) {
-                        return (
-                          <div
-                            className="cell font-normal flex-justify-center"
-                            key={`${x}${y}`}
-                          >
-                            🐒
-                          </div>
-                        );
+                        if (
+                          cell.ship.coordinates[0][0] === x &&
+                          cell.ship.coordinates[0][1] === y
+                        ) {
+                          return (
+                            <div className="cell font-normal">
+                              <img
+                                src={divRefsize2}
+                                className="cell-image-size2"
+                                alt="platypus size2"
+                              ></img>
+                            </div>
+                          );
+                        } else {
+                          return (
+                            <div
+                              className="cell font-normal flex-justify-center"
+                              key={`${x}${y}`}
+                            ></div>
+                          );
+                        }
                       } else {
                         const isHighlightCell = currentCell.some(
                           (cell) => cell[0] === x && cell[1] === y
                         );
+
+                        // if (cell.ship) {
+                        //   return (
+                        //     <div
+                        //       className="cell font-normal flex-justify-center"
+                        //       key={`${x}${y}`}
+                        //     >
+                        //       🐒
+                        //     </div>
+                        //   );
+                        // } else {
+                        //   const isHighlightCell = currentCell.some(
+                        //     (cell) => cell[0] === x && cell[1] === y
+                        //   );
 
                         return (
                           <div
@@ -220,15 +249,19 @@ function App() {
                                 👨🏿‍🦲
                               </div>
                             );
-                          } 
-                          
+                          }
+
                           if (cell.ship && cell.attacked) {
                             return (
                               <div
                                 className="cell font-normal flex-justify-center"
                                 key={`p2${x}${y}`}
                               >
-                                <img src={platypusFoot} alt="platypus-foot" className="cell-image"></img>
+                                <img
+                                  src={platypusFoot}
+                                  alt="platypus-foot"
+                                  className="cell-image"
+                                ></img>
                               </div>
                             );
                           } else if (!cell.ship && cell.attacked) {
