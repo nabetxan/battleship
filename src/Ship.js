@@ -11,7 +11,7 @@ export class Ship {
     this.length = length;
     this.hits = 0;
     this.coordinates = [];
-    this.direction = "x";
+    // this.direction = "x";
     this.index = index;
   }
 
@@ -26,8 +26,7 @@ export class Ship {
   }
 
   setCoordinates(x, y, direction) {
-    this.direction = direction;
-    console.log(this.index);
+    // this.direction = direction;
     const newCoordinates = [];
     if (direction === "x") {
       for (let i = x; i < this.length + x; i++) {
@@ -48,7 +47,7 @@ export class Ship {
     const condition1 =
       this.coordinates[0][0] === this.coordinates[1][0] ? "y" : "x";
 
-    this.direction = condition1;
+    // this.direction = condition1;
     // check for array length
     const condition2 = this.index + 1;
 
