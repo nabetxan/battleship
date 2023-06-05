@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Player } from "./Player";
 import { BattleShip } from "./BattleShip";
 import platypus from "./vector-platypus.png";
+import platypusFoot from "./platypus-foot.png"
 
 const P1 = new Player("Platypus", "platypus", false);
 const P2 = new Player("Monkey", "monkey", true);
@@ -45,7 +46,7 @@ function App() {
     <div className="App">
       <header id="App-header">
         <div id="title" className="font-xxLarge">
-          KAKURENBO BATTLE
+          KAKURENBO GAME
         </div>
         <div id="players-info-field" className="margin20">
           <div className="name font-large">{battleship.P1.name}</div>
@@ -186,7 +187,7 @@ function App() {
                                 className="cell font-normal flex-justify-center"
                                 key={`${x}${y}`}
                               >
-                                ✷
+                                ➰
                               </div>
                             );
                           } else {
@@ -227,7 +228,7 @@ function App() {
                                 className="cell font-normal flex-justify-center"
                                 key={`p2${x}${y}`}
                               >
-                                ❗️
+                                <img src={platypusFoot} alt="platypus-foot" className="cell-image"></img>
                               </div>
                             );
                           } else if (!cell.ship && cell.attacked) {
@@ -236,7 +237,7 @@ function App() {
                                 className="cell font-normal flex-justify-center"
                                 key={`p2${x}${y}`}
                               >
-                                ✷
+                                ➰
                               </div>
                             );
                           } else {
