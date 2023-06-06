@@ -27,13 +27,12 @@ export class Player {
     let shipArrayLength = shipArray.length;
     let coordinatesToBeSet = [];
     let nextShipLength = 0;
-    let isTaken = false;
-    let shipIndex = 0
-    
+    let shipIndex = 0;
+
     do {
       const randomX = Math.floor(Math.random() * this.gameboard.size);
       const randomY = Math.floor(Math.random() * this.gameboard.size);
-      const randomDirection = Math.floor(Math.random() * 2) === 0 ? "x" : "y";
+      const randomDirection = Math.random() < 0.5 ? "x" : "y";
 
       coordinatesToBeSet = this.placeShipCoordinates(
         randomX,
@@ -45,7 +44,7 @@ export class Player {
         continue;
       }
 
-      isTaken = coordinatesToBeSet.some((cooA) => {
+      const isTaken = coordinatesToBeSet.some((cooA) => {
         return shipArray.some((ship) => {
           return ship.coordinates.some((cooB) => {
             return cooA[0] === cooB[0] && cooA[1] === cooB[1];
@@ -57,8 +56,6 @@ export class Player {
         continue;
       }
 
-
-      shipIndex = shipIndex + 1
       nextShipLength = this.gameboard.getShipLength();
       const ship = new Ship(nextShipLength, shipIndex);
       ship.setCoordinates(randomX, randomY, randomDirection);
@@ -68,8 +65,26 @@ export class Player {
       shipArrayLength = shipArray.length;
       coordinatesToBeSet = [];
       nextShipLength = 0;
-      isTaken = false;
+      shipIndex = shipIndex + 1;
     } while (shipArrayLength < 5);
+
+// Test用
+    // const ship1 = new Ship(2, 0);
+    // ship1.setCoordinates(0, 0, "y");
+    // this.gameboard.addShip(ship1);
+    // const ship2 = new Ship(3, 1);
+    // ship2.setCoordinates(1, 0, "y");
+    // this.gameboard.addShip(ship2);
+    // const ship3 = new Ship(3, 2);
+    // ship3.setCoordinates(2, 0, "y");
+    // this.gameboard.addShip(ship3);
+    // const ship4 = new Ship(4, 3);
+    // ship4.setCoordinates(3, 0, "y");
+    // this.gameboard.addShip(ship4);
+    // const ship5 = new Ship(5, 4);
+    // ship5.setCoordinates(4, 0, "y");
+    // this.gameboard.addShip(ship5);
+
   }
 
   placeShipCoordinates(x, y, direction) {
@@ -133,9 +148,7 @@ export class Player {
         ship.setCoordinates(x, y, direction);
 
         this.gameboard.addShip(ship);
-
       }
-      
     }
   }
 }

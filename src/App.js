@@ -191,7 +191,7 @@ function App() {
                               cell.ship.coordinates[0][1] === y &&
                               cell.attacked
                             ) {
-                              console.log("aaa");
+                              // console.log("aaa");
                               return (
                                 <div className="cell attacked">
                                   <img
@@ -206,7 +206,7 @@ function App() {
                               cell.ship.coordinates[0][1] === y &&
                               cell.attacked === false
                             ) {
-                              console.log("bbb");
+                              // console.log("bbb");
                               return (
                                 <div className="cell platypus-cell">
                                   <img
@@ -217,7 +217,7 @@ function App() {
                                 </div>
                               );
                             } else if (cell.attacked === true) {
-                              console.log("ccc");
+                              // console.log("ccc");
                               return (
                                 <div
                                   className="cell font-normal flex-justify-center attacked"
@@ -225,7 +225,7 @@ function App() {
                                 ></div>
                               );
                             } else if (cell.attacked === false) {
-                              console.log("ddd");
+                              // console.log("ddd");
                               return (
                                 <div
                                   className="cell font-normal flex-justify-center platypus-cell"
@@ -233,7 +233,7 @@ function App() {
                                 ></div>
                               );
                             } else {
-                              console.log("eee");
+                              // console.log("eee");
                               return (
                                 <div
                                   className="cell font-normal flex-justify-center"
@@ -273,20 +273,39 @@ function App() {
                       <div className="row flex-justify-center">
                         {row.map((cell, x) => {
                           if (cell.ship?.isSunk()) {
-                            return (
-                              <div
-                                className="cell font-normal flex-justify-center"
-                                key={`p2${x}${y}`}
-                              >
-                                👨🏿‍🦲
-                              </div>
-                            );
+                            if (
+                              cell.ship.coordinates[0][0] === x &&
+                              cell.ship.coordinates[0][1] === y
+                            ) {
+                              const data = cell.ship.getImage();
+                              const imageSrc = data.src;
+                              const imageClassName = data.className;
+                              return (
+                                <div
+                                  className="cell attacked"
+                                  key={`p2${x}${y}`}
+                                >
+                                  <img
+                                    src={imageSrc}
+                                    className={imageClassName}
+                                    alt="platypus piece"
+                                  ></img>
+                                </div>
+                              );
+                            } else {
+                              return (
+                                <div
+                                  className="cell font-normal flex-justify-center attacked"
+                                  key={`p2${x}${y}`}
+                                ></div>
+                              );
+                            }
                           }
 
                           if (cell.ship && cell.attacked) {
                             return (
                               <div
-                                className="cell font-normal flex-justify-center"
+                                className="cell font-normal flex-justify-center attacked"
                                 key={`p2${x}${y}`}
                               >
                                 <img

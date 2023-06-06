@@ -83,3 +83,16 @@ test("AI random move", () => {
   expect(randomAttack).toEqual([0, 0]);
   expect(isRandom).toEqual(true);
 });
+
+// test("AI legal move", () => {
+//   const player1 = new Player("Perry", "platypus", false);
+//   const player2 = new Player("Minochan", "monkey", true);
+//   new BattleShip(player1, player2);
+//   const gameboard = new Gameboard();
+
+//   player2.placeShipCoordinatesForAI()
+  
+  
+//   expect(randomAttack).toEqual([0, 0]);
+//   expect(isRandom).toEqual(true);
+// });
