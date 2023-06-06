@@ -14,6 +14,7 @@ function App() {
   const [gameStatus, setGameStatus] = useState("not-started");
   const [direction, setDirection] = useState("y");
   const [currentCell, setCurrentCell] = useState([]);
+  const [result, setResult] = useState();
 
   const updateCounter = function () {
     setCounter(counter + 1);
@@ -22,12 +23,16 @@ function App() {
   const updateOnAttack = function (x, y) {
     battleship.P2.gameboard.receiveAttack(x, y);
     if (battleship.P2.gameboard.isAllShipSunk()) {
+      setResult("p1-win");
       updateCounter();
-      console.log("You Win");
     } else {
       const getHit = battleship.P2.doAIMove(battleship.P1.gameboard);
       battleship.P1.gameboard.receiveAttack(getHit[0], getHit[1]);
       updateCounter();
+      if (battleship.P1.gameboard.isAllShipSunk()) {
+        setResult("p2-win");
+        updateCounter();
+      }
     }
   };
 
@@ -341,6 +346,27 @@ function App() {
                   })}
                 </div>
               </div>
+
+              <div>
+                {result === "p1-win" ? (
+                  <div className="result">
+                    <div className="font-xxLarge winner">{P1.name} Wins!</div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                  </div>
+                ) : null}
+
+                {result === "p2-win" ? (
+                  <div className="result">
+                    <div className="font-xxLarge winner">{P2.name} Win!</div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                  </div>
+                ) : null}
+              </div>
+
               <div>
                 {/* during the game, Restart button appears. */}
                 {gameStatus === "on-game" ? (
@@ -349,6 +375,12 @@ function App() {
                     className="font-xLarge"
                     onClick={() => {
                       setGameStatus("not-started");
+                      setDirection("y");
+                      setCurrentCell([]);
+                      setResult("");
+                      P1.reset();
+                      P2.reset();
+                      battleship.reset(P1, P2);
                     }}
                   >
                     Restart

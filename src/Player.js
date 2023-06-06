@@ -9,6 +9,10 @@ export class Player {
     this.gameboard = new Gameboard();
   }
 
+  reset() {
+    this.gameboard = new Gameboard();
+  }
+  
   doAIMove(p1gameboard) {
     const remainingCells = [];
     for (let x = 0; x < this.gameboard.size; x++) {
@@ -68,7 +72,7 @@ export class Player {
       shipIndex = shipIndex + 1;
     } while (shipArrayLength < 5);
 
-// Test用
+    // Test用
     // const ship1 = new Ship(2, 0);
     // ship1.setCoordinates(0, 0, "y");
     // this.gameboard.addShip(ship1);
@@ -84,7 +88,6 @@ export class Player {
     // const ship5 = new Ship(5, 4);
     // ship5.setCoordinates(4, 0, "y");
     // this.gameboard.addShip(ship5);
-
   }
 
   placeShipCoordinates(x, y, direction) {
