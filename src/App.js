@@ -2,11 +2,15 @@ import "./App.css";
 import { useEffect, useState } from "react";
 import { Player } from "./Player";
 import { BattleShip } from "./BattleShip";
-import platypus from "./vector-platypus.png";
 import platypusFoot from "./platypus-foot.png";
+import lostPlatypus from "./lost-platypus.png";
+import platypusButton from "./platypusbutton.png";
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
+import sign from "./sign.png";
 
-const P1 = new Player("Platypus", "platypus", false);
-const P2 = new Player("Monkey", "monkey", true);
+const P1 = new Player("(Your name)", "platypus", false);
+const P2 = new Player("Computer", "monkey", true);
 const battleship = new BattleShip(P1, P2);
 
 function App() {
@@ -14,10 +18,15 @@ function App() {
   const [gameStatus, setGameStatus] = useState("not-started");
   const [direction, setDirection] = useState("y");
   const [currentCell, setCurrentCell] = useState([]);
+  const [isAboutLabOpen, setisAboutLabOpen] = useState(false);
   const [result, setResult] = useState();
 
   const updateCounter = function () {
     setCounter(counter + 1);
+  };
+
+  const handleisAboutLabOpen = function () {
+    isAboutLabOpen ? setisAboutLabOpen(false) : setisAboutLabOpen(true);
   };
 
   const updateOnAttack = function (x, y) {
@@ -50,10 +59,10 @@ function App() {
     <div className="App">
       <header id="App-header">
         <div id="title" className="font-xxLarge">
-          KAKURENBO GAME
+          Platypus Research Game
         </div>
         <div id="players-info-field" className="margin20">
-          <div className="name font-large">{battleship.P1.name}</div>
+          <div className="name font-large cursor">{battleship.P1.name}</div>
           <div className="font-large">vs</div>
           <div className="name font-large">{battleship.P2.name}</div>
         </div>
@@ -65,14 +74,62 @@ function App() {
         {gameStatus === "not-started" ? (
           <div className="font-normal height80 margin20">
             <div>
-              Are you ready to play the Hide-and-Seek game ("Kakurenbo")?
+              Welcome to our Platypus Research Lab!! Can you find the hidden
+              platypus faster than us?
             </div>
             <div>
-              Decide where you want to hide and place your piece anywhere on the
-              board.
+              Strategically place your piece on the board and rotate it using
+              the button on the left.
             </div>
+            <div>Let the race begin!</div>
+          </div>
+        ) : null}
+
+        {isAboutLabOpen === true ? (
+          <div className="aboutLab">
             <div>
-              You can rotate the piece by clicking the button on the left side.
+              <IconButton
+                aria-label="close"
+                onClick={handleisAboutLabOpen}
+                sx={{
+                  position: "absolute",
+                  right: 8,
+                  top: 8,
+                  color: (theme) => theme.palette.grey[500],
+                }}
+              >
+                <CloseIcon />
+              </IconButton>
+              <div className="font-normal">
+                <p>
+                  <b>Welcome to our top-secret Platypus Research Lab!</b>
+                </p>
+                <p>
+                  Our team of renowned scientists has been studying these
+                  elusive creatures for years. We have a challenge for you: can
+                  you outsmart us and locate the platypus before we do? To
+                  begin, you'll need to strategically hide the platypus on the
+                  game board. Use the provided pieces to camouflage the
+                  platypus, carefully considering your placement. Click the
+                  rotation button on the left side to adjust the orientation of
+                  the piece, ensuring the platypus remains hidden from our keen
+                  eyes. But be warned, our team is equipped with advanced
+                  technology and extensive knowledge of the platypus habitat.
+                  We'll be searching diligently, analyzing every move you make.
+                  The race is on to see who can locate the platypus first - you
+                  or our team of expert researchers. Remember, the platypus is a
+                  master of disguise, blending seamlessly with its surroundings.
+                  The success of our research and your victory depend on your
+                  ability to outwit us. Will you be able to outmaneuver our team
+                  and locate the platypus faster? Get ready to dive into the
+                  exciting world of platypus research. The fate of this unique
+                  species lies in your hands. Good luck!
+                </p>
+              </div>
+            </div>
+            <div className="to-right">
+              <div>Lab Director Signiture </div>
+              <img id="sign" src={sign} alt="sign of director"></img>
             </div>
           </div>
         ) : null}
@@ -99,16 +156,28 @@ function App() {
               id="gameboard-field-for-preparation"
               className="flex-justify-center"
             >
-              <div id="rotate" className="flex-justify-center margin20">
-                <img
-                  src={platypus}
-                  alt="platypus"
-                  id="rotate-img"
-                  className={direction === "x" ? "rotated" : "not-rotated"}
-                  onClick={() => {
-                    direction === "x" ? setDirection("y") : setDirection("x");
-                  }}
-                ></img>
+              <div>
+                <div
+                  id="rotate"
+                  className="flex-justify-center margin20 cursor"
+                >
+                  <img
+                    src={platypusButton}
+                    alt="platypus"
+                    id="rotate-img"
+                    className={direction === "x" ? "rotated" : "not-rotated"}
+                    onClick={() => {
+                      direction === "x" ? setDirection("y") : setDirection("x");
+                    }}
+                  ></img>
+                </div>
+
+                <div className="cursor" onClick={handleisAboutLabOpen}>
+                  About the Lab
+                  <span className="material-symbols-outlined lab-icon">
+                    science
+                  </span>
+                </div>
               </div>
               <div id="gameboard-preparation">
                 {currentGBP1.map((row, y) => (
@@ -360,7 +429,14 @@ function App() {
                 {result === "p2-win" ? (
                   <div className="result">
                     <div className="font-xxLarge winner">{P2.name} Win!</div>
-                    <div></div>
+                    <div>
+                      {" "}
+                      <img
+                        src={lostPlatypus}
+                        className="result-image"
+                        alt="platypus lost"
+                      ></img>
+                    </div>
                     <div></div>
                     <div></div>
                   </div>
