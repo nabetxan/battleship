@@ -7,9 +7,10 @@ import lostPlatypus from "./lost-platypus.png";
 import platypusButton from "./platypusbutton.png";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
+import TextField from "@mui/material/TextField";
 import sign from "./sign.png";
 
-const P1 = new Player("(Your name)", "platypus", false);
+const P1 = new Player("Minochan", "platypus", false);
 const P2 = new Player("Computer", "monkey", true);
 const battleship = new BattleShip(P1, P2);
 
@@ -20,13 +21,17 @@ function App() {
   const [currentCell, setCurrentCell] = useState([]);
   const [isAboutLabOpen, setisAboutLabOpen] = useState(false);
   const [result, setResult] = useState();
-
   const updateCounter = function () {
     setCounter(counter + 1);
   };
 
   const handleisAboutLabOpen = function () {
     isAboutLabOpen ? setisAboutLabOpen(false) : setisAboutLabOpen(true);
+  };
+
+  const handleChangeName = (e) => {
+    battleship.P1.name = e.target.value;
+    updateCounter();
   };
 
   const updateOnAttack = function (x, y) {
@@ -47,6 +52,7 @@ function App() {
 
   const currentGBP1 = battleship.P1.gameboard.currentGameboard();
   const currentGBP2 = battleship.P2.gameboard.currentGameboard();
+  const p1Name = battleship.P1.name;
 
   const nextShipLength = battleship.P1.gameboard.getShipLength();
   useEffect(() => {
@@ -62,7 +68,28 @@ function App() {
           Platypus Research Game
         </div>
         <div id="players-info-field" className="margin20">
-          <div className="name font-large cursor">{battleship.P1.name}</div>
+          {gameStatus === "not-started" || gameStatus === "ready-to-play" ? (
+            <TextField
+              id="standard-basic"
+              label="Your name"
+              variant="filled"
+              spellCheck={false}
+              sx={{
+                input: {
+                  color: "white",
+                  fontSize: "25px",
+                  fontFamily: "Shadows Into Light",
+                },
+                label: { color: "white", fontFamily: "Shadows Into Light" },
+                minWidth: "150px",
+              }}
+              defaultValue={p1Name !== "" ? p1Name : "Minochan defaultValue"}
+              onChange={handleChangeName}
+            />
+          ) : (
+            <div className="name font-large">{battleship.P1.name}</div>
+          )}
+
           <div className="font-large">vs</div>
           <div className="name font-large">{battleship.P2.name}</div>
         </div>
@@ -73,13 +100,14 @@ function App() {
 
         {gameStatus === "not-started" ? (
           <div className="font-normal height80 margin20">
+            <div>Hello {p1Name === "Minochan" ? "there" : p1Name}!! </div>
             <div>
-              Welcome to our Platypus Research Lab!! Can you find the hidden
+              Welcome to our Platypus Research Lab. Can you find the hidden
               platypus faster than us?
             </div>
             <div>
-              Strategically place your piece on the board and rotate it using
-              the button on the left.
+              Place your piece on the board and rotate it using the button on
+              the left.
             </div>
             <div>Let the race begin!</div>
           </div>
@@ -193,7 +221,10 @@ function App() {
                           const imageClassName = data.className;
 
                           return (
-                            <div className="cell platypus-cell">
+                            <div
+                              className="cell platypus-cell"
+                              key={`${x}${y}`}
+                            >
                               <img
                                 src={imageSrc}
                                 className={imageClassName}
@@ -205,7 +236,7 @@ function App() {
                           return (
                             <div
                               className="cell font-normal flex-justify-center platypus-cell"
-                              key={`${x}${y}`}
+                              key={`prep${x}${y}`}
                             ></div>
                           );
                         }
@@ -220,7 +251,7 @@ function App() {
                                 ? "highlight font-normal flex-justify-center"
                                 : "font-normal flex-justify-center"
                             }`}
-                            key={`${x}${y}`}
+                            key={`prep${x}${y}`}
                             onClick={() => {
                               battleship.P1.placeShip(x, y, direction);
                               updateCounter();
@@ -267,7 +298,10 @@ function App() {
                             ) {
                               // console.log("aaa");
                               return (
-                                <div className="cell attacked">
+                                <div
+                                  className="cell attacked"
+                                  key={`p1${x}${y}`}
+                                >
                                   <img
                                     src={imageSrc}
                                     className={imageClassName}
@@ -282,7 +316,10 @@ function App() {
                             ) {
                               // console.log("bbb");
                               return (
-                                <div className="cell platypus-cell">
+                                <div
+                                  className="cell platypus-cell"
+                                  key={`p1${x}${y}`}
+                                >
                                   <img
                                     src={imageSrc}
                                     className={imageClassName}
@@ -295,7 +332,7 @@ function App() {
                               return (
                                 <div
                                   className="cell font-normal flex-justify-center attacked"
-                                  key={`${x}${y}`}
+                                  key={`p1${x}${y}`}
                                 ></div>
                               );
                             } else if (cell.attacked === false) {
@@ -303,7 +340,7 @@ function App() {
                               return (
                                 <div
                                   className="cell font-normal flex-justify-center platypus-cell"
-                                  key={`${x}${y}`}
+                                  key={`p1${x}${y}`}
                                 ></div>
                               );
                             } else {
@@ -311,7 +348,7 @@ function App() {
                               return (
                                 <div
                                   className="cell font-normal flex-justify-center"
-                                  key={`${x}${y}`}
+                                  key={`p1${x}${y}`}
                                 ></div>
                               );
                             }
@@ -320,7 +357,7 @@ function App() {
                             return (
                               <div
                                 className="cell font-normal flex-justify-center"
-                                key={`${x}${y}`}
+                                key={`p1${x}${y}`}
                               >
                                 ➰
                               </div>
@@ -329,7 +366,7 @@ function App() {
                             return (
                               <div
                                 className="cell font-normal flex-justify-center"
-                                key={`${x}${y}`}
+                                key={`p1${x}${y}`}
                               >
                                 🌱
                               </div>
@@ -428,7 +465,7 @@ function App() {
 
                 {result === "p2-win" ? (
                   <div className="result">
-                    <div className="font-xxLarge winner">{P2.name} Win!</div>
+                    <div className="font-xxLarge winner">{P2.name} Wins!</div>
                     <div>
                       {" "}
                       <img
