@@ -12,18 +12,75 @@ export class Player {
   reset() {
     this.gameboard = new Gameboard();
   }
-  
+
   doAIMove(p1gameboard) {
     const remainingCells = [];
+    const hitButNotSunkCells = [];
+    const possibleMoves = [];
+
+    // Check for unattacked cells and "hit but ship is not sunk cells"
     for (let x = 0; x < this.gameboard.size; x++) {
       for (let y = 0; y < this.gameboard.size; y++) {
         if (!p1gameboard.getAttackedAtPosition(x, y)) {
           remainingCells.push([x, y]);
+        } else {
+          const isThereShip = p1gameboard.getShipAtPosition(x, y);
+          if (isThereShip) {
+            for (const ship of p1gameboard.ships) {
+              const attackedShip = ship.coordinates.some(
+                (coord) => coord[0] === x && coord[1] === y
+              );
+
+              if (!ship.isSunk() && attackedShip) {
+                hitButNotSunkCells.push([x, y]);
+                console.log(hitButNotSunkCells);
+              }
+            }
+          }
         }
       }
     }
-    const random = Math.floor(Math.random() * (remainingCells.length - 1));
-    return remainingCells[random];
+
+    // Attack adjacent cells of hit cells if any
+    if (hitButNotSunkCells.length > 0) {
+      for (const [x, y] of hitButNotSunkCells) {
+        if (x > 0 && !p1gameboard.getAttackedAtPosition(x - 1, y)) {
+          possibleMoves.push([x - 1, y]);
+        }
+        if (
+          x < this.gameboard.size - 1 &&
+          !p1gameboard.getAttackedAtPosition(x + 1, y)
+        ) {
+          possibleMoves.push([x + 1, y]);
+        }
+        if (y > 0 && !p1gameboard.getAttackedAtPosition(x, y - 1)) {
+          possibleMoves.push([x, y - 1]);
+        }
+        if (
+          y < this.gameboard.size - 1 &&
+          !p1gameboard.getAttackedAtPosition(x, y + 1)
+        ) {
+          possibleMoves.push([x, y + 1]);
+        }
+      }
+    }
+
+    // Attack remaining cells randomly if no hit cells or adjacent cells available
+    const finalMoves =
+      hitButNotSunkCells.length > 0 ? possibleMoves : remainingCells;
+    const random = Math.floor(Math.random() * finalMoves.length);
+    return finalMoves[random];
+
+    // ------ Original -----------// 
+    // for (let x = 0; x < this.gameboard.size; x++) {
+    //   for (let y = 0; y < this.gameboard.size; y++) {
+    //     if (!p1gameboard.getAttackedAtPosition(x, y)) {
+    //       remainingCells.push([x, y]);
+    //     }
+    //   }
+    // }
+    // const random = Math.floor(Math.random() * (remainingCells.length - 1));
+    // return remainingCells[random];
   }
 
   placeShipCoordinatesForAI() {
