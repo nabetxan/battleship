@@ -76,12 +76,28 @@ function App() {
               spellCheck={false}
               sx={{
                 input: {
-                  color: "white",
+                  color: "var(--color-white)",
                   fontSize: "25px",
                   fontFamily: "Shadows Into Light",
                 },
-                label: { color: "white", fontFamily: "Shadows Into Light" },
+                label: {
+                  color: "var(--color-white)",
+                  fontFamily: "Shadows Into Light",
+                  "&.Mui-focused": {
+                    color: "var(--color-start-button)", // Customize the label color when focused
+                  },
+                },
                 minWidth: "150px",
+
+                "& .MuiFilledInput-underline:before": {
+                  borderBottomColor: "var(--color-white)", // Customize the underline color
+                },
+                "& .MuiFilledInput-underline:after": {
+                  borderBottomColor: "var(--color-start-button)", // Customize the highlight color
+                },
+                "& .MuiFilledInput-underline:hover:before": {
+                  borderBottomColor: "var(--color-start-button)", // Customize the hover color
+                },
               }}
               defaultValue={p1Name !== "" ? p1Name : "Minochan defaultValue"}
               onChange={handleChangeName}
@@ -100,7 +116,9 @@ function App() {
 
         {gameStatus === "not-started" ? (
           <div className="font-normal height80 margin20">
-            <div>Hello {p1Name === "Minochan" ? "there" : p1Name}!! </div>
+            <div>
+              Hello {p1Name === "Minochan" ? "there" : <b>{p1Name}</b>}!!{" "}
+            </div>
             <div>
               Welcome to our Platypus Research Lab. Can you find the hidden
               platypus faster than us?
@@ -123,7 +141,7 @@ function App() {
                   position: "absolute",
                   right: 8,
                   top: 8,
-                  color: (theme) => theme.palette.grey[500],
+                  color: "var(--color-white)",
                 }}
               >
                 <CloseIcon />
@@ -296,7 +314,6 @@ function App() {
                               cell.ship.coordinates[0][1] === y &&
                               cell.attacked
                             ) {
-                              // console.log("aaa");
                               return (
                                 <div
                                   className="cell attacked"
@@ -314,7 +331,6 @@ function App() {
                               cell.ship.coordinates[0][1] === y &&
                               cell.attacked === false
                             ) {
-                              // console.log("bbb");
                               return (
                                 <div
                                   className="cell platypus-cell"
@@ -328,7 +344,6 @@ function App() {
                                 </div>
                               );
                             } else if (cell.attacked === true) {
-                              // console.log("ccc");
                               return (
                                 <div
                                   className="cell font-normal flex-justify-center attacked"
@@ -336,7 +351,6 @@ function App() {
                                 ></div>
                               );
                             } else if (cell.attacked === false) {
-                              // console.log("ddd");
                               return (
                                 <div
                                   className="cell font-normal flex-justify-center platypus-cell"
@@ -344,7 +358,6 @@ function App() {
                                 ></div>
                               );
                             } else {
-                              // console.log("eee");
                               return (
                                 <div
                                   className="cell font-normal flex-justify-center"
