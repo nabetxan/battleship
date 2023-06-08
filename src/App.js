@@ -203,21 +203,26 @@ function App() {
               className="flex-justify-center"
             >
               <div>
-                <div
-                  id="rotate"
-                  className="flex-justify-center margin20 cursor"
-                >
-                  <img
-                    src={platypusButton}
-                    alt="platypus"
-                    id="rotate-img"
-                    className={direction === "x" ? "rotated" : "not-rotated"}
-                    onClick={() => {
-                      direction === "x" ? setDirection("y") : setDirection("x");
-                    }}
-                  ></img>
-                </div>
-
+                <IconButton aria-label="rotate">
+                  <div
+                    id="rotate"
+                    className="flex-justify-center margin20 cursor"
+                  >
+                    <img
+                      src={platypusButton}
+                      alt="platypus"
+                      id="rotate-img"
+                      className={direction === "x" ? "rotated" : "not-rotated"}
+                      onClick={() => {
+                        setTimeout(() => {
+                          direction === "x"
+                            ? setDirection("y")
+                            : setDirection("x");
+                        }, 100);
+                      }}
+                    ></img>
+                  </div>
+                </IconButton>
                 <div className="cursor" onClick={handleisAboutLabOpen}>
                   About the Lab
                   <span className="material-symbols-outlined lab-icon">

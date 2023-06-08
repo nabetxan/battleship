@@ -123,10 +123,11 @@
 
 #rotate-img {
   width: 90%;
+  transition: transform 0.3s;
 }
 
 .rotated {
-  rotate: 90deg;
+  transform: rotate(90deg);
 }
 
 .row {
