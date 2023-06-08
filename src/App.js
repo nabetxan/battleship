@@ -4,6 +4,7 @@ import { Player } from "./Player";
 import { BattleShip } from "./BattleShip";
 import platypusFoot from "./platypus-foot.png";
 import lostPlatypus from "./lost-platypus.png";
+import platypusCaptured from "./platypusCaptured.png";
 import platypusButton from "./platypusbutton.png";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
@@ -21,6 +22,7 @@ function App() {
   const [currentCell, setCurrentCell] = useState([]);
   const [isAboutLabOpen, setisAboutLabOpen] = useState(false);
   const [result, setResult] = useState();
+
   const updateCounter = function () {
     setCounter(counter + 1);
   };
@@ -37,6 +39,7 @@ function App() {
   const updateOnAttack = function (x, y) {
     battleship.P2.gameboard.receiveAttack(x, y);
     if (battleship.P2.gameboard.isAllShipSunk()) {
+      setGameStatus("game-finished");
       setResult("p1-win");
       updateCounter();
     } else {
@@ -44,10 +47,21 @@ function App() {
       battleship.P1.gameboard.receiveAttack(getHit[0], getHit[1]);
       updateCounter();
       if (battleship.P1.gameboard.isAllShipSunk()) {
+        setGameStatus("game-finished");
         setResult("p2-win");
         updateCounter();
       }
     }
+  };
+
+  const handleClickRestartButton = function () {
+    setGameStatus("not-started");
+    setDirection("y");
+    setCurrentCell([]);
+    setResult("");
+    P1.reset();
+    P2.reset();
+    battleship.reset(P1, P2);
   };
 
   const currentGBP1 = battleship.P1.gameboard.currentGameboard();
@@ -112,7 +126,7 @@ function App() {
       </header>
 
       <div id="App-body">
-        {/* when the game is "not-started", show instruction. */}
+        {/* when the game is "not-started", show below short instruction. */}
 
         {gameStatus === "not-started" ? (
           <div className="font-normal height80 margin20">
@@ -302,13 +316,24 @@ function App() {
             </div>
           ) : null}
 
-          {gameStatus === "on-game" ? (
+          {gameStatus === "on-game" || gameStatus === "game-finished" ? (
             <div>
-              <div id="on-game-field" className="flex-justify-center">
-                <div id="gameboard-p1" className="flex-justify-center margin20">
+              <div
+                id="on-game-field"
+                className="flex-justify-center"
+                key="on-game-field"
+              >
+                <div
+                  id="gameboard-p1"
+                  className="flex-justify-center margin20"
+                  key="gameboard-p1"
+                >
                   {currentGBP1.map((row, y) => {
                     return (
-                      <div className="row flex-justify-center">
+                      <div
+                        className="row flex-justify-center"
+                        key={`p1-row${y}`}
+                      >
                         {row.map((cell, x) => {
                           if (cell.ship !== undefined) {
                             const data = cell.ship.getImage();
@@ -396,10 +421,17 @@ function App() {
                   })}
                 </div>
 
-                <div id="gameboard-p2" className="flex-justify-center margin20">
+                <div
+                  id="gameboard-p2"
+                  className="flex-justify-center margin20"
+                  key="gameboard-p2"
+                >
                   {currentGBP2.map((row, y) => {
                     return (
-                      <div className="row flex-justify-center">
+                      <div
+                        className="row flex-justify-center"
+                        key={`p2-row${y}`}
+                      >
                         {row.map((cell, x) => {
                           if (cell.ship?.isSunk()) {
                             if (
@@ -472,51 +504,63 @@ function App() {
               </div>
 
               <div>
-                {result === "p1-win" ? (
-                  <div className="result">
-                    <div className="font-xxLarge winner">{P1.name} Wins!</div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                  </div>
-                ) : null}
-
-                {result === "p2-win" ? (
-                  <div className="result">
-                    <div className="font-xxLarge winner">{P2.name} Wins!</div>
-                    <div>
-                      {" "}
-                      <img
-                        src={lostPlatypus}
-                        className="result-image"
-                        alt="platypus lost"
-                      ></img>
-                    </div>
-                    <div></div>
-                    <div></div>
-                  </div>
-                ) : null}
-              </div>
-
-              <div>
                 {/* during the game, Restart button appears. */}
                 {gameStatus === "on-game" ? (
                   <button
-                    id="restart-btn"
+                    id="restart-btn-on-game"
                     className="font-xLarge"
-                    onClick={() => {
-                      setGameStatus("not-started");
-                      setDirection("y");
-                      setCurrentCell([]);
-                      setResult("");
-                      P1.reset();
-                      P2.reset();
-                      battleship.reset(P1, P2);
-                    }}
+                    onClick={handleClickRestartButton}
                   >
                     Restart
                   </button>
                 ) : null}
+              </div>
+            </div>
+          ) : null}
+        </div>
+        <div>
+          {result === "p1-win" ? (
+            <div className="result">
+              <div className="font-xLarge winner">{P1.name} Wins!!</div>
+              <div>
+                <img
+                  src={platypusCaptured}
+                  className="win-result-image"
+                  alt="platypus captured"
+                ></img>
+              </div>
+              <div></div>
+              <div>
+                <button
+                  id="restart-btn"
+                  className="font-xLarge"
+                  onClick={handleClickRestartButton}
+                >
+                  Restart
+                </button>
+              </div>
+            </div>
+          ) : null}
+
+          {result === "p2-win" ? (
+            <div className="result">
+              <div className="font-xLarge winner">{P2.name} Wins</div>
+              <div>
+                <img
+                  src={lostPlatypus}
+                  className="lost-result-image"
+                  alt="platypus lost"
+                ></img>
+              </div>
+              <div></div>
+              <div>
+                <button
+                  id="restart-btn"
+                  className="font-xLarge"
+                  onClick={handleClickRestartButton}
+                >
+                  Restart
+                </button>
               </div>
             </div>
           ) : null}

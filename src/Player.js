@@ -33,7 +33,6 @@ export class Player {
 
               if (!ship.isSunk() && attackedShip) {
                 hitButNotSunkCells.push([x, y]);
-                console.log(hitButNotSunkCells);
               }
             }
           }
@@ -120,8 +119,6 @@ export class Player {
       nextShipLength = this.gameboard.getShipLength();
       const ship = new Ship(nextShipLength, shipIndex);
       ship.setCoordinates(randomX, randomY, randomDirection);
-      console.log(randomX, randomY, randomDirection);
-
       this.gameboard.addShip(ship);
       shipArrayLength = shipArray.length;
       coordinatesToBeSet = [];
