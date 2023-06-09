@@ -6,12 +6,11 @@ import lostPlatypus from "./lost-platypus.png";
 import platypusCaptured from "./platypusCaptured.png";
 import platypusButton from "./platypusbutton.png";
 import IconButton from "@mui/material/IconButton";
-import CloseIcon from "@mui/icons-material/Close";
 import TextField from "@mui/material/TextField";
-import sign from "./sign.png";
 import SetupGameboard from "./SetupGameboard";
 import MyGameboard from "./MyGameboard";
 import OpponentGameboard from "./OpponentGameboard";
+import AboutLab from "./AboutLab";
 
 const P1 = new Player("Minochan", "platypus", false);
 const P2 = new Player("Computer", "monkey", true);
@@ -98,7 +97,7 @@ function App() {
                     color: "var(--color-start-button)", // Customize the label color when focused
                   },
                 },
-                minWidth: "150px",
+                width: "180px",
 
                 "& .MuiFilledInput-underline:before": {
                   borderBottomColor: "var(--color-white)", // Customize the underline color
@@ -122,7 +121,7 @@ function App() {
         </div>
       </header>
 
-      <div id="App-body">
+      <div>
         {/* when the game is "not-started", show below short instruction. */}
 
         {gameStatus === "not-started" ? (
@@ -143,52 +142,7 @@ function App() {
         ) : null}
 
         {isAboutLabOpen === true ? (
-          <div className="aboutLab">
-            <div>
-              <IconButton
-                aria-label="close"
-                onClick={handleisAboutLabOpen}
-                sx={{
-                  position: "absolute",
-                  right: 8,
-                  top: 8,
-                  color: "var(--color-white)",
-                }}
-              >
-                <CloseIcon />
-              </IconButton>
-              <div className="font-normal">
-                <p>
-                  <b>Welcome to our top-secret Platypus Research Lab!</b>
-                </p>
-                <p>
-                  Our team of renowned scientists has been studying these
-                  elusive creatures for years. We have a challenge for you: can
-                  you outsmart us and locate the platypus before we do? To
-                  begin, you'll need to strategically hide the platypus on the
-                  game board. Use the provided pieces to camouflage the
-                  platypus, carefully considering your placement. Click the
-                  rotation button on the left side to adjust the orientation of
-                  the piece, ensuring the platypus remains hidden from our keen
-                  eyes. But be warned, our team is equipped with advanced
-                  technology and extensive knowledge of the platypus habitat.
-                  We'll be searching diligently, analyzing every move you make.
-                  The race is on to see who can locate the platypus first - you
-                  or our team of expert researchers. Remember, the platypus is a
-                  master of disguise, blending seamlessly with its surroundings.
-                  The success of our research and your victory depend on your
-                  ability to outwit us. Will you be able to outmaneuver our team
-                  and locate the platypus faster? Get ready to dive into the
-                  exciting world of platypus research. The fate of this unique
-                  species lies in your hands. Good luck!
-                </p>
-              </div>
-            </div>
-            <div className="to-right">
-              <div>Lab Director Signiture </div>
-              <img id="sign" src={sign} alt="sign of director"></img>
-            </div>
-          </div>
+          <AboutLab handleisAboutLabOpen={handleisAboutLabOpen} />
         ) : null}
 
         {/* when all the pieces are in place, the Start button appears. */}
