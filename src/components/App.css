@@ -98,6 +98,17 @@ body,
   display: flex;
   justify-content: space-around;
   min-width: 600px;
+  height: 100px;
+}
+
+.name{
+  width: 180px;
+  padding: 12px 15px 8px 18px;
+}
+
+.vs{
+  width:30px;
+  padding: 12px 15px 8px 18px;
 }
 
 #gameboard-field {

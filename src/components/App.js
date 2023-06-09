@@ -6,14 +6,16 @@ import lostPlatypus from "./lost-platypus.png";
 import platypusCaptured from "./platypusCaptured.png";
 import platypusButton from "./platypusbutton.png";
 import IconButton from "@mui/material/IconButton";
-import TextField from "@mui/material/TextField";
+
 import SetupGameboard from "./SetupGameboard";
 import MyGameboard from "./MyGameboard";
 import OpponentGameboard from "./OpponentGameboard";
 import AboutLab from "./AboutLab";
+import SetupPlayers from "./SetupPlayers";
+import SwitchAi from "./SwitchAI";
 
 const P1 = new Player("Minochan", "platypus", false);
-const P2 = new Player("Computer", "monkey", true);
+const P2 = new Player("Kamachan", "monkey", true);
 const battleship = new BattleShip(P1, P2);
 
 function App() {
@@ -22,6 +24,13 @@ function App() {
   const [gameStatus, setGameStatus] = useState("not-started");
   const [direction, setDirection] = useState("y");
   const [result, setResult] = useState();
+  const [computerMode, setComputerMode] = useState(true);
+
+  const handleChangeComputerMode = (event) => {
+    setComputerMode(event.target.checked);
+    P2.isAI = event.target.checked;
+    console.log(P2.isAI);
+  };
 
   const updateCounter = function () {
     setCounter(counter + 1);
@@ -79,45 +88,35 @@ function App() {
 
         <div id="players-info-field" className="margin20">
           {gameStatus === "not-started" || gameStatus === "ready-to-play" ? (
-            <TextField
-              id="standard-basic"
-              label="Your name"
-              variant="filled"
-              spellCheck={false}
-              sx={{
-                input: {
-                  color: "var(--color-white)",
-                  fontSize: "25px",
-                  fontFamily: "Shadows Into Light",
-                },
-                label: {
-                  color: "var(--color-white)",
-                  fontFamily: "Shadows Into Light",
-                  "&.Mui-focused": {
-                    color: "var(--color-start-button)", // Customize the label color when focused
-                  },
-                },
-                width: "180px",
-
-                "& .MuiFilledInput-underline:before": {
-                  borderBottomColor: "var(--color-white)", // Customize the underline color
-                },
-                "& .MuiFilledInput-underline:after": {
-                  borderBottomColor: "var(--color-start-button)", // Customize the highlight color
-                },
-                "& .MuiFilledInput-underline:hover:before": {
-                  borderBottomColor: "var(--color-start-button)", // Customize the hover color
-                },
-              }}
-              defaultValue={P1.name !== "" ? P1.name : "Minochan"}
-              onChange={(e) => handleChangeName(e, P1)}
-            />
+            <SetupPlayers player={P1} handleChangeName={handleChangeName} />
           ) : (
-            <div className="name font-large">{battleship.P1.name}</div>
+            //after the game started, name shows up
+            <div className="name font-large">{P1.name}</div>
           )}
 
-          <div className="font-large">vs</div>
-          <div className="name font-large">{battleship.P2.name}</div>
+          <div className="vs font-large">vs</div>
+
+          {gameStatus === "not-started" || gameStatus === "ready-to-play" ? (
+            !computerMode ? (
+              <>
+                <SetupPlayers player={P2} handleChangeName={handleChangeName} />
+                <SwitchAi
+                  computerMode={computerMode}
+                  handleChangeComputerMode={handleChangeComputerMode}
+                />
+              </>
+            ) : (
+              <>
+                <div className="name font-large">Computer</div>
+                <SwitchAi
+                  computerMode={computerMode}
+                  handleChangeComputerMode={handleChangeComputerMode}
+                />
+              </>
+            )
+          ) : (
+            <div className="name font-large">{P2.name}</div>
+          )}
         </div>
       </header>
 
