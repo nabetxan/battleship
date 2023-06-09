@@ -13,6 +13,7 @@ import OpponentGameboard from "./OpponentGameboard";
 import AboutLab from "./AboutLab";
 import SetupPlayers from "./SetupPlayers";
 import SwitchAi from "./SwitchAI";
+import Introduction from "./Intoduction";
 
 const P1 = new Player("Minochan", "platypus", false);
 const P2 = new Player("Kamachan", "monkey", true);
@@ -29,7 +30,6 @@ function App() {
   const handleChangeComputerMode = (event) => {
     setComputerMode(event.target.checked);
     P2.isAI = event.target.checked;
-    console.log(P2.isAI);
   };
 
   const updateCounter = function () {
@@ -44,6 +44,22 @@ function App() {
     player.name = e.target.value;
     updateCounter();
   };
+
+  const handleClickRestartButton = function () {
+    setGameStatus("not-started");
+    setDirection("y");
+    setResult("");
+    P1.reset();
+    P2.reset();
+    battleship.reset(P1, P2);
+  };
+
+  const nextShipLength = battleship.P1.gameboard.getShipLength();
+  useEffect(() => {
+    if (!nextShipLength) {
+      setGameStatus("ready-to-play");
+    }
+  }, [nextShipLength]);
 
   const updateOnAttack = function (x, y) {
     battleship.P2.gameboard.receiveAttack(x, y);
@@ -62,22 +78,6 @@ function App() {
       }
     }
   };
-
-  const handleClickRestartButton = function () {
-    setGameStatus("not-started");
-    setDirection("y");
-    setResult("");
-    P1.reset();
-    P2.reset();
-    battleship.reset(P1, P2);
-  };
-
-  const nextShipLength = battleship.P1.gameboard.getShipLength();
-  useEffect(() => {
-    if (!nextShipLength) {
-      setGameStatus("ready-to-play");
-    }
-  }, [nextShipLength]);
 
   return (
     <div className="App">
@@ -121,23 +121,10 @@ function App() {
       </header>
 
       <div>
-        {/* when the game is "not-started", show below short instruction. */}
+        {/* when the game is "not-started", show below short Introduction. */}
 
         {gameStatus === "not-started" ? (
-          <div className="font-normal height80 margin20">
-            <div>
-              Hello {P1.name === "Minochan" ? "there" : <b>{P1.name}</b>}!!{" "}
-            </div>
-            <div>
-              Welcome to our Platypus Research Lab. Can you find the hidden
-              platypus faster than us?
-            </div>
-            <div>
-              Place your piece on the board and rotate it using the button on
-              the left.
-            </div>
-            <div>Let the race begin!</div>
-          </div>
+          <Introduction player1={P1} computerMode={computerMode} />
         ) : null}
 
         {isAboutLabOpen === true ? (
@@ -198,11 +185,15 @@ function App() {
                     </span>
                   </div>
                 </div>
-                <SetupGameboard
-                  player={P1}
-                  direction={direction}
-                  updateCounter={updateCounter}
-                />
+                {computerMode ? (
+                  <SetupGameboard
+                    player={P1}
+                    direction={direction}
+                    updateCounter={updateCounter}
+                  />
+                ) : (
+                  <div> </div>
+                )}
               </div>
             </div>
           ) : null}
