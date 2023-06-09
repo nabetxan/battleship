@@ -1,23 +1,76 @@
-import { useEffect, useState } from "react";
-function SetupGameboard({ player }) {
-  const [counter, setCounter] = useState(0);
-//   const [gameStatus, setGameStatus] = useState("not-started");
-  const [direction, setDirection] = useState("y");
+import { useState } from "react";
+
+function SetupGameboard({ player, direction, updateCounter }) {
   const [currentCell, setCurrentCell] = useState([]);
-  const [result, setResult] = useState();
 
-  const updateCounter = function () {
-    setCounter(counter + 1);
-  };
+  const currentGameboardP1 = player.gameboard.currentGameboard();
+  return (
+    <div id="gameboard-preparation">
+      {currentGameboardP1.map((row, y) => (
+        <div className="row flex-justify-center" key={y}>
+          {row.map((cell, x) => {
+            if (cell.ship) {
+              if (
+                cell.ship.coordinates[0][0] === x &&
+                cell.ship.coordinates[0][1] === y
+              ) {
+                const data = cell.ship.getImage();
+                const imageSrc = data.src;
+                const imageClassName = data.className;
 
-//   const nextShipLength = player.gameboard.getShipLength();
-//   useEffect(() => {
-//     if (!nextShipLength) {
-//       setGameStatus("ready-to-play");
-//     }
-//   }, [nextShipLength]);
+                return (
+                  <div className="cell platypus-cell" key={`${x}${y}`}>
+                    <img
+                      src={imageSrc}
+                      className={imageClassName}
+                      alt="platypus piece"
+                    ></img>
+                  </div>
+                );
+              } else {
+                return (
+                  <div
+                    className="cell font-normal flex-justify-center platypus-cell"
+                    key={`prep${x}${y}`}
+                  ></div>
+                );
+              }
+            } else {
+              const isHighlightCell = currentCell.some(
+                (cell) => cell[0] === x && cell[1] === y
+              );
+              return (
+                <div
+                  className={`cell ${
+                    isHighlightCell
+                      ? "highlight font-normal flex-justify-center"
+                      : "font-normal flex-justify-center"
+                  }`}
+                  key={`prep${x}${y}`}
+                  onClick={() => {
+                    player.placeShip(x, y, direction);
+                    updateCounter();
+                  }}
+                  onMouseEnter={() => {
+                    const coordinatesToBeSet = player.placeShipCoordinates(
+                      x,
+                      y,
+                      direction
+                    );
 
-  return <div>hola {player.name}</div>;
+                    setCurrentCell(coordinatesToBeSet);
+                  }}
+                  onMouseLeave={() => {
+                    setCurrentCell([]);
+                  }}
+                ></div>
+              );
+            }
+          })}
+        </div>
+      ))}
+    </div>
+  );
 }
 
 export default SetupGameboard;

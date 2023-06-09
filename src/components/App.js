@@ -19,12 +19,9 @@ const battleship = new BattleShip(P1, P2);
 function App() {
   const [counter, setCounter] = useState(0);
   const [isAboutLabOpen, setisAboutLabOpen] = useState(false);
-  // from
   const [gameStatus, setGameStatus] = useState("not-started");
   const [direction, setDirection] = useState("y");
-  const [currentCell, setCurrentCell] = useState([]);
   const [result, setResult] = useState();
-  // to
 
   const updateCounter = function () {
     setCounter(counter + 1);
@@ -60,7 +57,6 @@ function App() {
   const handleClickRestartButton = function () {
     setGameStatus("not-started");
     setDirection("y");
-    setCurrentCell([]);
     setResult("");
     P1.reset();
     P2.reset();
@@ -83,7 +79,7 @@ function App() {
         <div id="title" className="font-xxLarge">
           Platypus Research Game
         </div>
-        <SetupGameboard player={P1} />
+
         <div id="players-info-field" className="margin20">
           {gameStatus === "not-started" || gameStatus === "ready-to-play" ? (
             <TextField
@@ -213,108 +209,49 @@ function App() {
             </button>
           </div>
         ) : null}
+
         <div id="gameboard-field" className="flex-justify-center">
           {gameStatus === "not-started" || gameStatus === "ready-to-play" ? (
-            <div
-              id="gameboard-field-for-preparation"
-              className="flex-justify-center"
-            >
-              <div>
-                <IconButton aria-label="rotate">
-                  <div
-                    id="rotate"
-                    className="flex-justify-center margin20 cursor"
-                  >
-                    <img
-                      src={platypusButton}
-                      alt="platypus"
-                      id="rotate-img"
-                      className={direction === "x" ? "rotated" : "not-rotated"}
-                      onClick={() => {
-                        setTimeout(() => {
-                          direction === "x"
-                            ? setDirection("y")
-                            : setDirection("x");
-                        }, 100);
-                      }}
-                    ></img>
-                  </div>
-                </IconButton>
-                <div className="cursor" onClick={handleisAboutLabOpen}>
-                  About the Lab
-                  <span className="material-symbols-outlined lab-icon">
-                    science
-                  </span>
-                </div>
-              </div>
-              <div id="gameboard-preparation">
-                {currentGBP1.map((row, y) => (
-                  <div className="row flex-justify-center" key={y}>
-                    {row.map((cell, x) => {
-                      if (cell.ship) {
-                        if (
-                          cell.ship.coordinates[0][0] === x &&
-                          cell.ship.coordinates[0][1] === y
-                        ) {
-                          const data = cell.ship.getImage();
-                          const imageSrc = data.src;
-                          const imageClassName = data.className;
-
-                          return (
-                            <div
-                              className="cell platypus-cell"
-                              key={`${x}${y}`}
-                            >
-                              <img
-                                src={imageSrc}
-                                className={imageClassName}
-                                alt="platypus piece"
-                              ></img>
-                            </div>
-                          );
-                        } else {
-                          return (
-                            <div
-                              className="cell font-normal flex-justify-center platypus-cell"
-                              key={`prep${x}${y}`}
-                            ></div>
-                          );
+            <div>
+              <div
+                id="gameboard-field-for-preparation"
+                className="flex-justify-center"
+              >
+                <div>
+                  <IconButton aria-label="rotate">
+                    <div
+                      id="rotate"
+                      className="flex-justify-center margin20 cursor"
+                    >
+                      <img
+                        src={platypusButton}
+                        alt="platypus"
+                        id="rotate-img"
+                        className={
+                          direction === "x" ? "rotated" : "not-rotated"
                         }
-                      } else {
-                        const isHighlightCell = currentCell.some(
-                          (cell) => cell[0] === x && cell[1] === y
-                        );
-                        return (
-                          <div
-                            className={`cell ${
-                              isHighlightCell
-                                ? "highlight font-normal flex-justify-center"
-                                : "font-normal flex-justify-center"
-                            }`}
-                            key={`prep${x}${y}`}
-                            onClick={() => {
-                              battleship.P1.placeShip(x, y, direction);
-                              updateCounter();
-                            }}
-                            onMouseEnter={() => {
-                              const coordinatesToBeSet =
-                                battleship.P1.placeShipCoordinates(
-                                  x,
-                                  y,
-                                  direction
-                                );
-
-                              setCurrentCell(coordinatesToBeSet);
-                            }}
-                            onMouseLeave={() => {
-                              setCurrentCell([]);
-                            }}
-                          ></div>
-                        );
-                      }
-                    })}
+                        onClick={() => {
+                          setTimeout(() => {
+                            direction === "x"
+                              ? setDirection("y")
+                              : setDirection("x");
+                          }, 100);
+                        }}
+                      ></img>
+                    </div>
+                  </IconButton>
+                  <div className="cursor" onClick={handleisAboutLabOpen}>
+                    About the Lab
+                    <span className="material-symbols-outlined lab-icon">
+                      science
+                    </span>
                   </div>
-                ))}
+                </div>
+                <SetupGameboard
+                  player={P1}
+                  direction={direction}
+                  updateCounter={updateCounter}
+                />
               </div>
             </div>
           ) : null}
