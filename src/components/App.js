@@ -1,7 +1,7 @@
 import "./App.css";
 import { useEffect, useState } from "react";
-import { Player } from "./Player";
-import { BattleShip } from "./BattleShip";
+import { Player } from "../Player";
+import { BattleShip } from "../BattleShip";
 import platypusFoot from "./platypus-foot.png";
 import lostPlatypus from "./lost-platypus.png";
 import platypusCaptured from "./platypusCaptured.png";
@@ -10,6 +10,7 @@ import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import TextField from "@mui/material/TextField";
 import sign from "./sign.png";
+import SetupGameboard from "./SetupGameboard";
 
 const P1 = new Player("Minochan", "platypus", false);
 const P2 = new Player("Computer", "monkey", true);
@@ -17,11 +18,13 @@ const battleship = new BattleShip(P1, P2);
 
 function App() {
   const [counter, setCounter] = useState(0);
+  const [isAboutLabOpen, setisAboutLabOpen] = useState(false);
+  // from
   const [gameStatus, setGameStatus] = useState("not-started");
   const [direction, setDirection] = useState("y");
   const [currentCell, setCurrentCell] = useState([]);
-  const [isAboutLabOpen, setisAboutLabOpen] = useState(false);
   const [result, setResult] = useState();
+  // to
 
   const updateCounter = function () {
     setCounter(counter + 1);
@@ -31,8 +34,8 @@ function App() {
     isAboutLabOpen ? setisAboutLabOpen(false) : setisAboutLabOpen(true);
   };
 
-  const handleChangeName = (e) => {
-    battleship.P1.name = e.target.value;
+  const handleChangeName = (e, player) => {
+    player.name = e.target.value;
     updateCounter();
   };
 
@@ -66,7 +69,6 @@ function App() {
 
   const currentGBP1 = battleship.P1.gameboard.currentGameboard();
   const currentGBP2 = battleship.P2.gameboard.currentGameboard();
-  const p1Name = battleship.P1.name;
 
   const nextShipLength = battleship.P1.gameboard.getShipLength();
   useEffect(() => {
@@ -81,6 +83,7 @@ function App() {
         <div id="title" className="font-xxLarge">
           Platypus Research Game
         </div>
+        <SetupGameboard player={P1} />
         <div id="players-info-field" className="margin20">
           {gameStatus === "not-started" || gameStatus === "ready-to-play" ? (
             <TextField
@@ -113,8 +116,8 @@ function App() {
                   borderBottomColor: "var(--color-start-button)", // Customize the hover color
                 },
               }}
-              defaultValue={p1Name !== "" ? p1Name : "Minochan defaultValue"}
-              onChange={handleChangeName}
+              defaultValue={P1.name !== "" ? P1.name : "Minochan"}
+              onChange={(e) => handleChangeName(e, P1)}
             />
           ) : (
             <div className="name font-large">{battleship.P1.name}</div>
@@ -131,7 +134,7 @@ function App() {
         {gameStatus === "not-started" ? (
           <div className="font-normal height80 margin20">
             <div>
-              Hello {p1Name === "Minochan" ? "there" : <b>{p1Name}</b>}!!{" "}
+              Hello {P1.name === "Minochan" ? "there" : <b>{P1.name}</b>}!!{" "}
             </div>
             <div>
               Welcome to our Platypus Research Lab. Can you find the hidden
@@ -541,7 +544,6 @@ function App() {
               </div>
             </div>
           ) : null}
-
           {result === "p2-win" ? (
             <div className="result">
               <div className="font-xLarge winner">{P2.name} Wins</div>
