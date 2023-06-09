@@ -2,7 +2,6 @@ import "./App.css";
 import { useEffect, useState } from "react";
 import { Player } from "../Player";
 import { BattleShip } from "../BattleShip";
-import platypusFoot from "./platypus-foot.png";
 import lostPlatypus from "./lost-platypus.png";
 import platypusCaptured from "./platypusCaptured.png";
 import platypusButton from "./platypusbutton.png";
@@ -11,6 +10,8 @@ import CloseIcon from "@mui/icons-material/Close";
 import TextField from "@mui/material/TextField";
 import sign from "./sign.png";
 import SetupGameboard from "./SetupGameboard";
+import MyGameboard from "./MyGameboard";
+import OpponentGameboard from "./OpponentGameboard";
 
 const P1 = new Player("Minochan", "platypus", false);
 const P2 = new Player("Computer", "monkey", true);
@@ -62,9 +63,6 @@ function App() {
     P2.reset();
     battleship.reset(P1, P2);
   };
-
-  const currentGBP1 = battleship.P1.gameboard.currentGameboard();
-  const currentGBP2 = battleship.P2.gameboard.currentGameboard();
 
   const nextShipLength = battleship.P1.gameboard.getShipLength();
   useEffect(() => {
@@ -263,184 +261,11 @@ function App() {
                 className="flex-justify-center"
                 key="on-game-field"
               >
-                <div
-                  id="gameboard-p1"
-                  className="flex-justify-center margin20"
-                  key="gameboard-p1"
-                >
-                  {currentGBP1.map((row, y) => {
-                    return (
-                      <div
-                        className="row flex-justify-center"
-                        key={`p1-row${y}`}
-                      >
-                        {row.map((cell, x) => {
-                          if (cell.ship !== undefined) {
-                            const data = cell.ship.getImage();
-                            const imageSrc = data.src;
-                            const imageClassName = data.className;
-                            if (
-                              cell.ship.coordinates[0][0] === x &&
-                              cell.ship.coordinates[0][1] === y &&
-                              cell.attacked
-                            ) {
-                              return (
-                                <div
-                                  className="cell attacked"
-                                  key={`p1${x}${y}`}
-                                >
-                                  <img
-                                    src={imageSrc}
-                                    className={imageClassName}
-                                    alt="platypus piece"
-                                  ></img>
-                                </div>
-                              );
-                            } else if (
-                              cell.ship.coordinates[0][0] === x &&
-                              cell.ship.coordinates[0][1] === y &&
-                              cell.attacked === false
-                            ) {
-                              return (
-                                <div
-                                  className="cell platypus-cell"
-                                  key={`p1${x}${y}`}
-                                >
-                                  <img
-                                    src={imageSrc}
-                                    className={imageClassName}
-                                    alt="platypus piece"
-                                  ></img>
-                                </div>
-                              );
-                            } else if (cell.attacked === true) {
-                              return (
-                                <div
-                                  className="cell font-normal flex-justify-center attacked"
-                                  key={`p1${x}${y}`}
-                                ></div>
-                              );
-                            } else if (cell.attacked === false) {
-                              return (
-                                <div
-                                  className="cell font-normal flex-justify-center platypus-cell"
-                                  key={`p1${x}${y}`}
-                                ></div>
-                              );
-                            } else {
-                              return (
-                                <div
-                                  className="cell font-normal flex-justify-center"
-                                  key={`p1${x}${y}`}
-                                ></div>
-                              );
-                            }
-                          }
-                          if (!cell.ship && cell.attacked) {
-                            return (
-                              <div
-                                className="cell font-normal flex-justify-center"
-                                key={`p1${x}${y}`}
-                              >
-                                ➰
-                              </div>
-                            );
-                          } else {
-                            return (
-                              <div
-                                className="cell font-normal flex-justify-center"
-                                key={`p1${x}${y}`}
-                              >
-                                🌱
-                              </div>
-                            );
-                          }
-                        })}
-                      </div>
-                    );
-                  })}
-                </div>
-
-                <div
-                  id="gameboard-p2"
-                  className="flex-justify-center margin20"
-                  key="gameboard-p2"
-                >
-                  {currentGBP2.map((row, y) => {
-                    return (
-                      <div
-                        className="row flex-justify-center"
-                        key={`p2-row${y}`}
-                      >
-                        {row.map((cell, x) => {
-                          if (cell.ship?.isSunk()) {
-                            if (
-                              cell.ship.coordinates[0][0] === x &&
-                              cell.ship.coordinates[0][1] === y
-                            ) {
-                              const data = cell.ship.getImage();
-                              const imageSrc = data.src;
-                              const imageClassName = data.className;
-                              return (
-                                <div
-                                  className="cell attacked"
-                                  key={`p2${x}${y}`}
-                                >
-                                  <img
-                                    src={imageSrc}
-                                    className={imageClassName}
-                                    alt="platypus piece"
-                                  ></img>
-                                </div>
-                              );
-                            } else {
-                              return (
-                                <div
-                                  className="cell font-normal flex-justify-center attacked"
-                                  key={`p2${x}${y}`}
-                                ></div>
-                              );
-                            }
-                          }
-
-                          if (cell.ship && cell.attacked) {
-                            return (
-                              <div
-                                className="cell font-normal flex-justify-center attacked"
-                                key={`p2${x}${y}`}
-                              >
-                                <img
-                                  src={platypusFoot}
-                                  alt="platypus-foot"
-                                  className="cell-image"
-                                ></img>
-                              </div>
-                            );
-                          } else if (!cell.ship && cell.attacked) {
-                            return (
-                              <div
-                                className="cell font-normal flex-justify-center"
-                                key={`p2${x}${y}`}
-                              >
-                                ➰
-                              </div>
-                            );
-                          } else {
-                            return (
-                              <div
-                                className="cell font-normal flex-justify-center"
-                                onClick={() => updateOnAttack(x, y)}
-                                key={`p2${x}${y}`}
-                              >
-                                🌱
-                              </div>
-                            );
-                          }
-                        })}
-                      </div>
-                    );
-                  })}
-                </div>
+                <MyGameboard player={P1} />
+                <OpponentGameboard
+                  player={P2}
+                  updateOnAttack={updateOnAttack}
+                />
               </div>
 
               <div>

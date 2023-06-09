@@ -108,8 +108,8 @@ body,
   padding-top: 0px;
 }
 
-#gameboard-p1,
-#gameboard-p2 {
+#my-gameboard,
+#opponent-gameboard {
   flex-direction: column;
 }
 

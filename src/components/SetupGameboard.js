@@ -3,10 +3,10 @@ import { useState } from "react";
 function SetupGameboard({ player, direction, updateCounter }) {
   const [currentCell, setCurrentCell] = useState([]);
 
-  const currentGameboardP1 = player.gameboard.currentGameboard();
+  const currentGameboard = player.gameboard.currentGameboard();
   return (
     <div id="gameboard-preparation">
-      {currentGameboardP1.map((row, y) => (
+      {currentGameboard.map((row, y) => (
         <div className="row flex-justify-center" key={y}>
           {row.map((cell, x) => {
             if (cell.ship) {
