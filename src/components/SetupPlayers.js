@@ -24,7 +24,6 @@ function SetupPlayers({ player, handleChangeName }) {
             },
           },
           width: "180px",
-          height: "50px",
 
           "& .MuiFilledInput-underline:before": {
             borderBottomColor: "var(--color-white)", // Customize the underline color

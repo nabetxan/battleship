@@ -26,6 +26,19 @@ body,
   justify-content: center;
 }
 
+.space-between-col {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.flex-col-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .to-right {
   display: flex;
   flex-direction: column;
@@ -65,27 +78,50 @@ body,
   margin: 20px;
 }
 
-#App-header {
+#intro {
+  background-color: #555e7c;
+  width: 600px;
+  height: 180px;
   display: flex;
-  flex-direction: column;
+  justify-content: center;
+  margin: 10px auto;
+  border-radius: 25px;
+  text-align: center;
   align-items: center;
 }
 
 #title {
   text-shadow: 0px 5px 0px var(--color-text-shadow);
-  padding: 30px;
+  padding: 5px;
   background-color: var(--color-title-background);
   width: 100%;
 }
 
+#sidebar {
+  width: 180px;
+}
+
+#board-area {
+  width: 380px;
+}
+
+#mask {
+  width: 380px;
+  height: 380px;
+  background-color: #282c34;
+}
+
 #start-btn,
 #restart-btn,
-#restart-btn-on-game {
+#restart-btn-on-game,
+#twoPlayer-mode-btn {
   box-shadow: 0px 8px 1px var(--color-title-background);
   border: solid 3px var(--color-title-background);
   border-radius: 5px;
   padding: 10px 30px;
 }
+
+#twoPlayer-mode-btn,
 #start-btn,
 #restart-btn {
   background-color: var(--color-start-button);
@@ -96,23 +132,24 @@ body,
 
 #players-info-field {
   display: flex;
+  align-items: center;
   justify-content: space-around;
   min-width: 600px;
   height: 100px;
+  padding-bottom: 0;
 }
 
-.name{
+.name {
   width: 180px;
-  padding: 12px 15px 8px 18px;
+  text-align: center;
 }
 
-.vs{
-  width:30px;
-  padding: 12px 15px 8px 18px;
+.vs {
+  width: 30px;
 }
 
 #gameboard-field {
-  padding: 20px;
+  padding-top: 5px;
 }
 
 #on-game-field {
