@@ -197,14 +197,8 @@ function App() {
         </div>
 
         <div id="side-bar-and-gameboard-field" className="flex-justify-center">
-          {/* This is the side bar. Hide it when it's "on-game"/"game-finished" status with Computer mode */}
-          {/* {(gameStatus === STATUS.ON_GAME_P1 && computerMode) ||
-          (gameStatus === STATUS.GAME_FINISHED && computerMode) ||
-          gameStatus === STATUS.ON_GAME_SWITCH_P1 ||
-          gameStatus === STATUS.ON_GAME_SWITCH_P2 ? (
-            <></>
-          ) : ( */}
           <div className="flex-justify-center">
+          {/* This is the side bar */}          
             <div id="sidebar">
               <div className="space-between-col">
                 {/* Show the rotate button  */}
@@ -273,7 +267,6 @@ function App() {
               </div>
             </div>
           </div>
-          {/* )} */}
 
           {/* This is the board area. Depends on the status and game mode, it changes what to show*/}
           <div className="flex-col-center">
@@ -339,7 +332,6 @@ function App() {
                     className="font-large margin20"
                     onClick={() => {
                       setGameStatus(STATUS.ON_GAME_P1);
-                      // SetCurrentPlayer(P1);
                     }}
                   >
                     {P1.name}, click here to make a move
