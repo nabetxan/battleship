@@ -1,12 +1,8 @@
 import "./App.css";
 import { useEffect, useState } from "react";
-import { Player } from "../Player";
-import { BattleShip } from "../BattleShip";
-import lostPlatypus from "./lost-platypus.png";
-import platypusCaptured from "./platypusCaptured.png";
-import platypusButton from "./platypusbutton.png";
+import { Player } from "./Player";
+import { BattleShip } from "./BattleShip";
 import IconButton from "@mui/material/IconButton";
-
 import SetupGameboard from "./SetupGameboard";
 import MyGameboard from "./MyGameboard";
 import OpponentGameboard from "./OpponentGameboard";
@@ -14,6 +10,7 @@ import AboutLab from "./AboutLab";
 import SetupPlayers from "./SetupPlayers";
 import SwitchAi from "./SwitchAI";
 import Introduction from "./Intoduction";
+import IMAGE from "../Image/IMAGE";
 
 const P1 = new Player("Minochan", "platypus", false);
 const P2 = new Player("Kamachan", "monkey", true);
@@ -21,19 +18,14 @@ const battleship = new BattleShip(P1, P2);
 
 const STATUS = {
   NOT_STARTED: "NOT_STARTED", // Hello view, select 1P or 2P
-
   SETUP_P1: "SETUP_P1", // 1P, 2P -> P1 setup view. If 1P => READY_TO_PLAY. If 2P => SETUP_P2
   SETUP_P2: "SETUP_P2", // 2P -> P2 setup view. => READY_TO_PLAY
-
   READY_TO_PLAY: "READY_TO_PLAY", // ships placed, before start => ON_GAME_P1
-  // ON_GAME_VS_COMP: "ON_GAME_VS_COMP",
   ON_GAME_P1: "ON_GAME_P1", // 1P, 2P -> P1 play screen. After making a move, if 1P => AI => ON_GAME_P1. if 2P => ON_GAME_SWITCH_P2
+  ON_GAME_P2: "ON_GAME_P2", // 2P -> P2 play screen. After making a move => ON_GAME_SWITCH
   ON_GAME_SWITCH_P1: "ON_GAME_SWITCH_P1", // 2P -> Next player waiting screen. If next is P1 => ON_GAME_P1, if next is P2 => ON_GAME_P2
   ON_GAME_SWITCH_P2: "ON_GAME_SWITCH_P2",
-  ON_GAME_P2: "ON_GAME_P2", // 2P -> P2 play screen. After making a move => ON_GAME_SWITCH
   GAME_FINISHED: "GAME_FINISHED",
-  // WIN_P1 : "WIN_P1",
-  // WIN_P2 : "WIN_P2"
 };
 
 function App() {
@@ -44,7 +36,6 @@ function App() {
   const [result, setResult] = useState();
   const [computerMode, setComputerMode] = useState(true);
   const [moved, setMoved] = useState(false);
-  // const [currentPlayer, SetCurrentPlayer] = useState();
 
   const handleChangeComputerMode = (event) => {
     setComputerMode(event.target.checked);
@@ -77,12 +68,10 @@ function App() {
   const nextShipLengthP2 = P2.gameboard.getShipLength();
 
   useEffect(() => {
-    if (!computerMode && !nextShipLengthP2) {
-      // setGameStatus(STATUS.ON_GAME_SWITCH);
-    } else if (computerMode && !nextShipLengthP1) {
+    if (computerMode && !nextShipLengthP1) {
       setGameStatus(STATUS.READY_TO_PLAY);
     }
-  }, [computerMode, nextShipLengthP1, nextShipLengthP2]);
+  }, [computerMode, nextShipLengthP1]);
 
   const updateOnAttack = function (x, y) {
     if (computerMode) {
@@ -210,7 +199,7 @@ function App() {
                       className="flex-justify-center margin20 cursor"
                     >
                       <img
-                        src={platypusButton}
+                        src={IMAGE.PLATYPUS_BUTTON}
                         alt="platypus"
                         id="rotate-img"
                         className={
@@ -343,9 +332,9 @@ function App() {
                 >
                   Yes! I'm ready
                 </button>
-                <div>
-                  Again, make sure your opponent won't see while you are
-                  playing.
+                <div className="font-large">
+                  Again, make sure your opponent won't see your screen while you
+                  are playing.
                 </div>
               </div>
             </div>
@@ -461,7 +450,7 @@ function App() {
               <div className="font-xLarge winner">{P1.name} Wins!!</div>
               <div>
                 <img
-                  src={platypusCaptured}
+                  src={IMAGE.PLATYPUS_CAPTURED}
                   className="win-result-image"
                   alt="platypus captured"
                 ></img>
@@ -484,7 +473,7 @@ function App() {
                 <div className="font-xLarge winner">{P2.name} Wins</div>
                 <div>
                   <img
-                    src={lostPlatypus}
+                    src={IMAGE.LOST_PLATYPUS}
                     className="lost-result-image"
                     alt="platypus lost"
                   ></img>
@@ -505,7 +494,7 @@ function App() {
                 <div className="font-xLarge winner">{P2.name} Wins!!</div>
                 <div>
                   <img
-                    src={platypusCaptured}
+                    src={IMAGE.PLATYPUS_CAPTURED}
                     className="win-result-image"
                     alt="platypus captured"
                   ></img>

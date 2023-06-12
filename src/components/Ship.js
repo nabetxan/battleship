@@ -1,8 +1,4 @@
-import platypusSize2 from "./platypus-size2.png";
-import platypusSize3A from "./platypus-size3A.png";
-import platypusSize3B from "./platypus-size3B.png";
-import platypusSize4 from "./platypus-size4.png";
-import platypusSize5 from "./platypus-size5.png";
+import IMAGE from "../Image/IMAGE";
 
 export class Ship {
   // Your ‘ships’ will be objects that include their length, the number of
@@ -55,52 +51,52 @@ export class Ship {
     const obj = {};
     switch (condition) {
       case "x-1":
-        obj.src = platypusSize2;
+        obj.src = IMAGE.PLATYPUS_SIZE2;
         obj.className = "platypus-cell-image size2";
         break;
 
       case "y-1":
-        obj.src = platypusSize2;
+        obj.src = IMAGE.PLATYPUS_SIZE2;
         obj.className = "platypus-cell-image size2 img-rotated";
         break;
 
       case "x-2":
-        obj.src = platypusSize3A;
+        obj.src = IMAGE.PLATYPUS_SIZE3A;
         obj.className = "platypus-cell-image size3";
         break;
 
       case "y-2":
-        obj.src = platypusSize3A;
+        obj.src = IMAGE.PLATYPUS_SIZE3A;
         obj.className = "platypus-cell-image size3 img-rotated";
         break;
 
       case "x-3":
-        obj.src = platypusSize3B;
+        obj.src = IMAGE.PLATYPUS_SIZE3B;
         obj.className = "platypus-cell-image size3";
         break;
 
       case "y-3":
-        obj.src = platypusSize3B;
+        obj.src = IMAGE.PLATYPUS_SIZE3B;
         obj.className = "platypus-cell-image size3 img-rotated";
         break;
 
       case "x-4":
-        obj.src = platypusSize4;
+        obj.src = IMAGE.PLATYPUS_SIZE4;
         obj.className = "platypus-cell-image size4";
         break;
 
       case "y-4":
-        obj.src = platypusSize4;
+        obj.src = IMAGE.PLATYPUS_SIZE4;
         obj.className = "platypus-cell-image size4 img-rotated";
         break;
 
       case "x-5":
-        obj.src = platypusSize5;
+        obj.src = IMAGE.PLATYPUS_SIZE5;
         obj.className = "platypus-cell-image size5";
         break;
 
       case "y-5":
-        obj.src = platypusSize5;
+        obj.src = IMAGE.PLATYPUS_SIZE5;
         obj.className = "platypus-cell-image size5 img-rotated";
         break;
       default:

@@ -70,7 +70,7 @@ export class Player {
     const random = Math.floor(Math.random() * finalMoves.length);
     return finalMoves[random];
 
-    // ------ Original -----------// 
+    // ------ Original -----------//
     // for (let x = 0; x < this.gameboard.size; x++) {
     //   for (let y = 0; y < this.gameboard.size; y++) {
     //     if (!p1gameboard.getAttackedAtPosition(x, y)) {

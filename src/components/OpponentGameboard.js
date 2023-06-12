@@ -1,4 +1,4 @@
-import platypusFoot from "./platypus-foot.png";
+import IMAGE from "../Image/IMAGE";
 
 function OpponentGameboard({ player, updateOnAttack }) {
   const opponentCurrentGameboard = player.gameboard.currentGameboard();
@@ -47,7 +47,7 @@ function OpponentGameboard({ player, updateOnAttack }) {
                       key={`p2${x}${y}`}
                     >
                       <img
-                        src={platypusFoot}
+                        src={IMAGE.PLATYPUS_FOOT}
                         alt="platypus-foot"
                         className="cell-image"
                       ></img>

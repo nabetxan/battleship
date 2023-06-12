@@ -1,5 +1,5 @@
 import CloseIcon from "@mui/icons-material/Close";
-import sign from "./sign.png";
+import IMAGE from "../Image/IMAGE";
 import IconButton from "@mui/material/IconButton";
 
 function AboutLab({ handleisAboutLabOpen }) {
@@ -45,7 +45,7 @@ function AboutLab({ handleisAboutLabOpen }) {
       </div>
       <div className="to-right">
         <div>Lab Director Signiture </div>
-        <img id="sign" src={sign} alt="sign of director"></img>
+        <img id="sign" src={IMAGE.SIGN} alt="sign of director"></img>
       </div>
     </div>
   );
