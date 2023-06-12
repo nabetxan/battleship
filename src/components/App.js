@@ -74,6 +74,7 @@ function App() {
   }, [computerMode, nextShipLengthP1]);
 
   const updateOnAttack = function (x, y) {
+    // vs Computer
     if (computerMode) {
       battleship.P2.gameboard.receiveAttack(x, y);
       if (battleship.P2.gameboard.isAllShipSunk()) {
@@ -90,6 +91,7 @@ function App() {
           updateCounter();
         }
       }
+      // 2 Players Mode
     } else if (gameStatus === STATUS.ON_GAME_P1) {
       battleship.P2.gameboard.receiveAttack(x, y);
       if (battleship.P2.gameboard.isAllShipSunk()) {
@@ -115,7 +117,11 @@ function App() {
     <div className="App">
       <div className="flex-col-center">
         {/* title stays there always */}
-        <div id="title" className="font-xxLarge">
+        <div
+          id="title"
+          className="font-xxLarge cursor"
+          onClick={handleClickRestartButton}
+        >
           Platypus Research Game
         </div>
 
@@ -183,45 +189,52 @@ function App() {
           </div>
         ) : null}
 
-        {/* flex-justify-center class can be deleted maybe */}
         <div id="gameboard-field" className="flex-justify-center">
           {/* This is the side bar. Hide it when it's "on-game"/"game-finished" status with Computer mode */}
           {(gameStatus === STATUS.ON_GAME_P1 && computerMode) ||
-          (gameStatus === STATUS.GAME_FINISHED && computerMode) ? (
+          (gameStatus === STATUS.GAME_FINISHED && computerMode) ||
+          gameStatus === STATUS.ON_GAME_SWITCH_P1 ||
+          gameStatus === STATUS.ON_GAME_SWITCH_P2 ? (
             <></>
           ) : (
             <div className="flex-justify-center">
               <div id="sidebar">
                 <div className="space-between-col">
-                  <IconButton aria-label="rotate">
-                    <div
-                      id="rotate"
-                      className="flex-justify-center margin20 cursor"
-                    >
-                      <img
-                        src={IMAGE.PLATYPUS_BUTTON}
-                        alt="platypus"
-                        id="rotate-img"
-                        className={
-                          direction === "x" ? "rotated" : "not-rotated"
-                        }
-                        onClick={() => {
-                          setTimeout(() => {
-                            direction === "x"
-                              ? setDirection("y")
-                              : setDirection("x");
-                          }, 100);
-                        }}
-                      ></img>
-                    </div>
-                  </IconButton>
+                  {gameStatus === STATUS.ON_GAME_P1 ||
+                  gameStatus === STATUS.ON_GAME_P2 ||
+                  gameStatus === STATUS.GAME_FINISHED ? (
+                    <div></div>
+                  ) : (
+                    <IconButton aria-label="rotate">
+                      <div
+                        id="rotate"
+                        className="flex-justify-center margin20 cursor"
+                      >
+                        <img
+                          src={IMAGE.PLATYPUS_BUTTON}
+                          alt="platypus"
+                          id="rotate-img"
+                          className={
+                            direction === "x" ? "rotated" : "not-rotated"
+                          }
+                          onClick={() => {
+                            setTimeout(() => {
+                              direction === "x"
+                                ? setDirection("y")
+                                : setDirection("x");
+                            }, 100);
+                          }}
+                        ></img>
+                      </div>
+                    </IconButton>
+                  )}
 
-                  {/* SETUP_P1 */}
+                  {/* SETUP_P1 and After P1 Moved, Button to switch to the Switch view appear */}
                   {(gameStatus === STATUS.SETUP_P1 &&
                     nextShipLengthP1 === undefined) ||
                   (gameStatus === STATUS.ON_GAME_P1 && moved) ? (
                     <button
-                      id="twoPlayer-mode-p1-ready-btn"
+                      id="p1-to-p2-btn"
                       className="font-normal"
                       onClick={() => {
                         if (gameStatus === STATUS.ON_GAME_P1) {
@@ -230,20 +243,19 @@ function App() {
                           setGameStatus(STATUS.SETUP_P2);
                         }
                         setMoved(false);
-                        // SetCurrentPlayer(P2);
                       }}
                     >
                       Click here and pass the device to {P2.name}
                     </button>
                   ) : null}
 
-                  {/* "twoPlayer-mode-P1-ready-P2-not-ready" */}
+                  {/* SETUP_P2 and After P2 Moved, Button to switch to the Switch view appear */}
 
                   {(gameStatus === STATUS.SETUP_P2 &&
                     nextShipLengthP2 === undefined) ||
                   (gameStatus === STATUS.ON_GAME_P2 && moved) ? (
                     <button
-                      id="twoPlayer-mode-p2-ready-btn"
+                      id="p2-to-p1-btn"
                       className="font-normal"
                       onClick={() => {
                         setGameStatus(STATUS.ON_GAME_SWITCH_P1);
@@ -254,13 +266,14 @@ function App() {
                       Click here and pass the device to {P1.name}
                     </button>
                   ) : null}
-
-                  <div className="cursor" onClick={handleisAboutLabOpen}>
-                    About the Lab
-                    <span className="material-symbols-outlined lab-icon">
-                      science
-                    </span>
-                  </div>
+                  {gameStatus === STATUS.NOT_STARTED ? (
+                    <div className="cursor" onClick={handleisAboutLabOpen}>
+                      About the Lab
+                      <span className="material-symbols-outlined lab-icon">
+                        science
+                      </span>
+                    </div>
+                  ) : null}
                 </div>
               </div>
             </div>
@@ -270,12 +283,19 @@ function App() {
 
           {gameStatus === STATUS.ON_GAME_SWITCH_P1 ? (
             <div>
+              <div id="swimming-area">
+                <img
+                  src={IMAGE.SWIMMING_PLATYPUS}
+                  alt="swimming platypus"
+                  id="swimming-platypus"
+                ></img>
+              </div>
               <div>
-                This is the screen when you switch the device from P2 to P1
+                Pass the device from {P2.name} to {P1.name}
               </div>
               <button
-                id="twoPlayer-mode-p1-btn"
-                className="font-normal"
+                id="twoP-mode-p1-btn"
+                className="font-large margin20"
                 onClick={() => {
                   setGameStatus(STATUS.ON_GAME_P1);
                   // SetCurrentPlayer(P1);
@@ -288,15 +308,21 @@ function App() {
 
           {gameStatus === STATUS.ON_GAME_SWITCH_P2 ? (
             <div>
+              <div id="swimming-area">
+                <img
+                  src={IMAGE.SWIMMING_PLATYPUS}
+                  alt="swimming platypus"
+                  id="swimming-platypus"
+                ></img>
+              </div>
               <div>
-                This is the screen when you switch the device from P1 to P2
+                Pass the device from {P1.name} to {P2.name}
               </div>
               <button
-                id="twoPlayer-mode-p1-btn"
-                className="font-normal"
+                id="twoP-mode-p1-btn"
+                className="font-large margin20"
                 onClick={() => {
                   setGameStatus(STATUS.ON_GAME_P2);
-                  // SetCurrentPlayer(P1);
                 }}
               >
                 {P2.name}, click here to make a move
@@ -327,7 +353,9 @@ function App() {
                   className="font-xLarge margin20"
                   onClick={() => {
                     setGameStatus(STATUS.SETUP_P1);
-                    // SetCurrentPlayer(P1);
+                    P1.reset();
+                    P2.reset();
+                    battleship.reset(P1, P2);
                   }}
                 >
                   Yes! I'm ready
@@ -444,6 +472,7 @@ function App() {
             </div>
           ) : null}
         </div>
+
         <div>
           {result === "p1-win" ? (
             <div className="result">

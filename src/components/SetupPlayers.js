@@ -1,8 +1,6 @@
 import TextField from "@mui/material/TextField";
 
 function SetupPlayers({ player, handleChangeName }) {
-  // const [currentCell, setCurrentCell] = useState([]);
-
   return (
     <div>
       <TextField

@@ -7,7 +7,6 @@ export class Ship {
     this.length = length;
     this.hits = 0;
     this.coordinates = [];
-    // this.direction = "x";
     this.index = index;
   }
 
@@ -22,7 +21,6 @@ export class Ship {
   }
 
   setCoordinates(x, y, direction) {
-    // this.direction = direction;
     const newCoordinates = [];
     if (direction === "x") {
       for (let i = x; i < this.length + x; i++) {
@@ -43,7 +41,6 @@ export class Ship {
     const condition1 =
       this.coordinates[0][0] === this.coordinates[1][0] ? "y" : "x";
 
-    // this.direction = condition1;
     // check for array length
     const condition2 = this.index + 1;
 
@@ -100,7 +97,7 @@ export class Ship {
         obj.className = "platypus-cell-image size5 img-rotated";
         break;
       default:
-         // Code to execute if no case matches
+      // Code to execute if no case matches
     }
 
     return obj;
