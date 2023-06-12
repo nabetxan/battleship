@@ -6,7 +6,7 @@ function OpponentGameboard({ player, updateOnAttack }) {
     <div>
       <div
         id="opponent-gameboard"
-        className="flex-justify-center margin20"
+        className="flex-justify-center margin20 col"
         key="opponent-gameboard"
       >
         {opponentCurrentGameboard.map((row, y) => {

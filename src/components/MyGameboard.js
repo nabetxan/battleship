@@ -4,7 +4,7 @@ function MyGameboard({ player }) {
     <div>
       <div
         id="my-gameboard"
-        className="flex-justify-center margin20"
+        className="flex-justify-center margin20 col"
         key="my-gameboard"
       >
         {myCurrentGameboard.map((row, y) => {

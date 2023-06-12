@@ -1,4 +1,5 @@
 :root {
+  --font-family: "Shadows Into Light", cursive;
   --color-attacked: #bb5986;
   --color-platypus-cell: #67c15b;
   --color-white: #eff0f4;
@@ -9,17 +10,20 @@
   --color-title-background: #0d1221;
   --color-start-button: #e8c053;
   /* https://coolors.co/0d1221-282c34-555e7c-52b8c1-a1d4db-eff0f4-e8c053-67c15b-bb5986 */
-  --font-family: "Shadows Into Light", cursive;
 }
 
 body,
 .App {
-  text-align: center;
+  font-family: var(--font-family);
   background-color: var(--color-background);
   color: var(--color-white);
   height: 100%;
   min-width: 600px;
-  font-family: "Shadows Into Light", cursive;
+  text-align: center;
+}
+
+.cursor {
+  cursor: pointer;
 }
 
 .flex-justify-center {
@@ -27,6 +31,9 @@ body,
   justify-content: center;
 }
 
+.col {
+  flex-direction: column;
+}
 .space-between-col {
   height: 100%;
   display: flex;
@@ -51,12 +58,6 @@ body,
   font-size: 50px;
 }
 
-.lab-icon {
-  position: relative;
-  top: 5px;
-  margin: 5px;
-}
-
 .font-xLarge {
   font-weight: 600;
   font-size: 40px;
@@ -79,6 +80,22 @@ body,
   margin: 20px;
 }
 
+#title {
+  text-shadow: 0px 5px 0px var(--color-text-shadow);
+  padding: 5px;
+  background-color: var(--color-title-background);
+  width: 100%;
+}
+
+#players-info-field {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  min-width: 600px;
+  height: 100px;
+  padding-bottom: 0;
+}
+
 #intro {
   background-color: #555e7c;
   width: 600px;
@@ -91,13 +108,6 @@ body,
   align-items: center;
 }
 
-#title {
-  text-shadow: 0px 5px 0px var(--color-text-shadow);
-  padding: 5px;
-  background-color: var(--color-title-background);
-  width: 100%;
-}
-
 #sidebar {
   width: 180px;
 }
@@ -106,10 +116,18 @@ body,
   width: 380px;
 }
 
+#gameboard-field {
+  padding-top: 5px;
+}
+
+#on-game-field {
+  padding-top: 0px;
+}
+
 #mask {
   width: 380px;
   height: 380px;
-  background-color: #282c34;
+  background-color: var(--color-background);
 }
 
 #start-btn,
@@ -129,17 +147,9 @@ body,
 #twoP-mode-p1-btn {
   background-color: var(--color-start-button);
 }
+
 #restart-btn-on-game {
   background-color: var(--color-text-shadow);
-}
-
-#players-info-field {
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-  min-width: 600px;
-  height: 100px;
-  padding-bottom: 0;
 }
 
 .name {
@@ -151,17 +161,30 @@ body,
   width: 30px;
 }
 
-#gameboard-field {
-  padding-top: 5px;
+.lab-icon {
+  position: relative;
+  top: 5px;
+  margin: 5px;
 }
 
-#on-game-field {
-  padding-top: 0px;
+.aboutLab {
+  z-index: 2;
+  min-width: 470px;
+  height: 450px;
+  position: fixed;
+  top: 50％;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: solid 10px var(--cell-highlight);
+  background-color: var(--color-result);
+  color: #282c34;
+  overflow-y: auto;
+  padding: 30px;
 }
 
-#my-gameboard,
-#opponent-gameboard {
-  flex-direction: column;
+#sign {
+  height: 50px;
+  width: 50px;
 }
 
 #rotate {
@@ -319,26 +342,6 @@ body,
   background-color: var(--color-attacked);
 }
 
-.aboutLab {
-  z-index: 2;
-  min-width: 470px;
-  height: 450px;
-  position: fixed;
-  top: 50％;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  border: solid 10px var(--cell-highlight);
-  background-color: var(--color-result);
-  color: #282c34;
-  overflow-y: auto;
-  padding: 30px;
-}
-
-#sign {
-  height: 50px;
-  width: 50px;
-}
-
 .result {
   z-index: 2;
   width: 600px;
@@ -366,8 +369,4 @@ body,
 .win-result-image {
   width: 150px;
   height: auto;
-}
-
-.cursor {
-  cursor: pointer;
 }
