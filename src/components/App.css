@@ -34,6 +34,11 @@ body,
 .col {
   flex-direction: column;
 }
+
+.spacearound {
+  width: 100%;
+  justify-content: space-around;
+}
 .space-between-col {
   height: 100%;
   display: flex;
@@ -135,8 +140,7 @@ body,
 #restart-btn-on-game,
 #twoPlayer-mode-btn,
 #twoP-mode-p1-btn,
-#p1-to-p2-btn,
-#p2-to-p1-btn {
+#switch-btn {
   box-shadow: 0px 8px 1px var(--color-title-background);
   border: solid 3px var(--color-title-background);
   border-radius: 5px;
@@ -147,8 +151,7 @@ body,
 #start-btn,
 #restart-btn,
 #twoP-mode-p1-btn,
-#p1-to-p2-btn,
-#p2-to-p1-btn {
+#switch-btn {
   background-color: var(--color-start-button);
 }
 
@@ -211,11 +214,17 @@ body,
   transform: rotate(90deg);
 }
 
-#p1-to-p2-btn,
-#p2-to-p1-btn {
+.upper-left {
   width: 150px;
   height: 200px;
   position: fixed;
+  font-family: var(--font-family);
+}
+
+.bottom-left {
+  width: 450px;
+  height: 80px;
+  /* position: fixed; */
   font-family: var(--font-family);
 }
 
@@ -350,7 +359,7 @@ body,
   position: fixed;
   top: 50％;
   left: 50%;
-  transform: translate(-50%, -120%);
+  transform: translate(-50%, -0%);
   border: solid 10px var(--cell-highlight);
   background-color: var(--color-result);
 }

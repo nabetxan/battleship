@@ -12,6 +12,7 @@ import SwitchAi from "./SwitchAI";
 import Introduction from "./Intoduction";
 import IMAGE from "../Image/IMAGE";
 import Result from "./Result";
+import SwitchPlayerButton from "./SwitchPlayerButton";
 
 const P1 = new Player("Minochan", "platypus", false);
 const P2 = new Player("Kamachan", "monkey", true);
@@ -41,6 +42,14 @@ function App() {
   const handleChangeComputerMode = (event) => {
     setComputerMode(event.target.checked);
     P2.isAI = event.target.checked;
+  };
+
+  const handleGameStatusChange = (status) => {
+    setGameStatus(status);
+  };
+
+  const handleMoved = (boolean) => {
+    setMoved(boolean);
   };
 
   const updateCounter = function () {
@@ -230,42 +239,21 @@ function App() {
                   </IconButton>
                 )}
 
-                {/* When SETUP_P1 and After P1 Moved, Button to switch to the Switch view appear */}
+                {/* When SETUP_P1 or SETUP_P2 completes, Button to switch appear at bottom left*/}
+
                 {(gameStatus === STATUS.SETUP_P1 &&
                   nextShipLengthP1 === undefined) ||
-                (gameStatus === STATUS.ON_GAME_P1 && moved) ? (
-                  <button
-                    id="p1-to-p2-btn"
-                    className="font-normal"
-                    onClick={() => {
-                      if (gameStatus === STATUS.ON_GAME_P1) {
-                        setGameStatus(STATUS.ON_GAME_SWITCH_P2);
-                      } else {
-                        setGameStatus(STATUS.SETUP_P2);
-                      }
-                      setMoved(false);
-                    }}
-                  >
-                    Click here and pass the device to {P2.name}
-                  </button>
-                ) : null}
-
-                {/* SETUP_P2 and After P2 Moved, Button to switch to the Switch view appear */}
-
-                {(gameStatus === STATUS.SETUP_P2 &&
-                  nextShipLengthP2 === undefined) ||
-                (gameStatus === STATUS.ON_GAME_P2 && moved) ? (
-                  <button
-                    id="p2-to-p1-btn"
-                    className="font-normal"
-                    onClick={() => {
-                      setGameStatus(STATUS.ON_GAME_SWITCH_P1);
-                      setMoved(false);
-                      // SetCurrentPlayer(P1);
-                    }}
-                  >
-                    Click here and pass the device to {P1.name}
-                  </button>
+                (gameStatus === STATUS.SETUP_P2 &&
+                  nextShipLengthP2 === undefined) ? (
+                  <SwitchPlayerButton
+                    gameStatus={gameStatus}
+                    STATUS={STATUS}
+                    handleGameStatusChange={handleGameStatusChange}
+                    handleMoved={handleMoved}
+                    P1={P1}
+                    P2={P2}
+                    classNameValue="font-normal upper-left"
+                  />
                 ) : null}
 
                 {/* About the lab button appears */}
@@ -445,32 +433,48 @@ function App() {
               </div>
             ) : null}
 
-            {/* during the game, Restart button appears. */}
-            <div>
-              {gameStatus === STATUS.ON_GAME_P1 ||
-              gameStatus === STATUS.ON_GAME_P2 ? (
-                <button
-                  id="restart-btn-on-game"
-                  className="font-xLarge"
-                  onClick={handleClickRestartButton}
-                >
-                  Restart
-                </button>
+            <div className="flex-justify-center spacearound">
+              {/* during the game, Restart button appears. */}
+              <div>
+                {gameStatus === STATUS.ON_GAME_P1 ||
+                gameStatus === STATUS.ON_GAME_P2 ? (
+                  <button
+                    id="restart-btn-on-game"
+                    className="font-normal"
+                    onClick={handleClickRestartButton}
+                  >
+                    Restart
+                  </button>
+                ) : null}
+              </div>
+              {/* When P1 or P2 Moved, Button to switch to the Switch view appear at upper left*/}
+
+              {(gameStatus === STATUS.ON_GAME_P1 && moved) ||
+              (gameStatus === STATUS.ON_GAME_P2 && moved) ? (
+                <SwitchPlayerButton
+                  gameStatus={gameStatus}
+                  STATUS={STATUS}
+                  handleGameStatusChange={handleGameStatusChange}
+                  handleMoved={handleMoved}
+                  P1={P1}
+                  P2={P2}
+                  classNameValue="font-normal bottom-left font-large"
+                />
               ) : null}
             </div>
           </div>
-        </div>
 
-        <div>
-          {gameStatus === STATUS.GAME_FINISHED ? (
-            <Result
-              result={result}
-              P1={P1}
-              P2={P2}
-              handleClickRestartButton={handleClickRestartButton}
-              computerMode={computerMode}
-            />
-          ) : null}
+          <div>
+            {gameStatus === STATUS.GAME_FINISHED ? (
+              <Result
+                result={result}
+                P1={P1}
+                P2={P2}
+                handleClickRestartButton={handleClickRestartButton}
+                computerMode={computerMode}
+              />
+            ) : null}
+          </div>
         </div>
       </div>
     </div>
