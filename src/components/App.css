@@ -109,14 +109,14 @@ body,
 }
 
 #sidebar {
-  width: 180px;
+  /* width: 180px; */
 }
 
 #board-area {
   width: 380px;
 }
 
-#gameboard-field {
+#side-bar-and-gameboard-field {
   padding-top: 5px;
 }
 
@@ -134,7 +134,9 @@ body,
 #restart-btn,
 #restart-btn-on-game,
 #twoPlayer-mode-btn,
-#twoP-mode-p1-btn {
+#twoP-mode-p1-btn,
+#p1-to-p2-btn,
+#p2-to-p1-btn {
   box-shadow: 0px 8px 1px var(--color-title-background);
   border: solid 3px var(--color-title-background);
   border-radius: 5px;
@@ -144,7 +146,9 @@ body,
 #twoPlayer-mode-btn,
 #start-btn,
 #restart-btn,
-#twoP-mode-p1-btn {
+#twoP-mode-p1-btn,
+#p1-to-p2-btn,
+#p2-to-p1-btn {
   background-color: var(--color-start-button);
 }
 
@@ -164,7 +168,7 @@ body,
 .lab-icon {
   position: relative;
   top: 5px;
-  margin: 5px;
+  margin: 5px 5px 25px 5px;
 }
 
 .aboutLab {
@@ -209,12 +213,9 @@ body,
 
 #p1-to-p2-btn,
 #p2-to-p1-btn {
-  border-radius: 40px;
-  width: 180px;
-  height: 350px;
+  width: 150px;
+  height: 200px;
   position: fixed;
-  padding: 20px;
-  background-color: var(--color-start-button);
   font-family: var(--font-family);
 }
 
