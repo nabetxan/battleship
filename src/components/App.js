@@ -198,7 +198,7 @@ function App() {
 
         <div id="side-bar-and-gameboard-field" className="flex-justify-center">
           <div className="flex-justify-center">
-          {/* This is the side bar */}          
+            {/* This is the side bar */}
             <div id="sidebar">
               <div className="space-between-col">
                 {/* Show the rotate button  */}
@@ -457,13 +457,38 @@ function App() {
           </div>
 
           <div>
-            {gameStatus === STATUS.GAME_FINISHED ? (
+            {gameStatus === STATUS.GAME_FINISHED && result === "p1-win" ? (
               <Result
                 result={result}
-                P1={P1}
-                P2={P2}
+                player={P1}
                 handleClickRestartButton={handleClickRestartButton}
-                computerMode={computerMode}
+                src={IMAGE.PLATYPUS_CAPTURED}
+                className="win-result-image"
+                alt="platypus captured"
+              />
+            ) : null}
+            {gameStatus === STATUS.GAME_FINISHED &&
+            result === "p2-win" &&
+            !computerMode ? (
+              <Result
+                result={result}
+                player={P2}
+                handleClickRestartButton={handleClickRestartButton}
+                src={IMAGE.PLATYPUS_CAPTURED}
+                className="win-result-image"
+                alt="platypus captured"
+              />
+            ) : null}
+            {gameStatus === STATUS.GAME_FINISHED &&
+            result === "p2-win" &&
+            computerMode ? (
+              <Result
+                result={result}
+                player={P2}
+                handleClickRestartButton={handleClickRestartButton}
+                src={IMAGE.LOST_PLATYPUS}
+                className="lost-result-image"
+                alt="platypus lost"
               />
             ) : null}
           </div>

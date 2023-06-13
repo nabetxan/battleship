@@ -1,76 +1,29 @@
-import IMAGE from "../Image/IMAGE";
-
-function Result({ result, P1, P2, handleClickRestartButton, computerMode }) {
-  if (result === "p1-win") {
-    return (
-      <div className="result">
-        <div className="font-xLarge winner">{P1.name} Wins!!</div>
-        <div>
-          <img
-            src={IMAGE.PLATYPUS_CAPTURED}
-            className="win-result-image"
-            alt="platypus captured"
-          ></img>
-        </div>
-        <div></div>
-        <div>
-          <button
-            id="restart-btn"
-            className="font-xLarge"
-            onClick={handleClickRestartButton}
-          >
-            Restart
-          </button>
-        </div>
+function Result({
+  result,
+  player,
+  handleClickRestartButton,
+  src,
+  className,
+  alt,
+}) {
+  return (
+    <div className="result">
+      <div className="font-xLarge winner">{player.name} Wins!!</div>
+      <div>
+        <img src={src} className={className} alt={alt}></img>
       </div>
-    );
-  } else if (result === "p2-win" && computerMode) {
-    return (
-      <div className="result">
-        <div className="font-xLarge winner">{P2.name} Wins</div>
-        <div>
-          <img
-            src={IMAGE.LOST_PLATYPUS}
-            className="lost-result-image"
-            alt="platypus lost"
-          ></img>
-        </div>
-        <div></div>
-        <div>
-          <button
-            id="restart-btn"
-            className="font-xLarge"
-            onClick={handleClickRestartButton}
-          >
-            Restart
-          </button>
-        </div>
+      <div></div>
+      <div>
+        <button
+          id="restart-btn"
+          className="font-xLarge"
+          onClick={handleClickRestartButton}
+        >
+          Restart
+        </button>
       </div>
-    );
-  } else {
-    return (
-      <div className="result">
-        <div className="font-xLarge winner">{P2.name} Wins!!</div>
-        <div>
-          <img
-            src={IMAGE.PLATYPUS_CAPTURED}
-            className="win-result-image"
-            alt="platypus captured"
-          ></img>
-        </div>
-        <div></div>
-        <div>
-          <button
-            id="restart-btn"
-            className="font-xLarge"
-            onClick={handleClickRestartButton}
-          >
-            Restart
-          </button>
-        </div>
-      </div>
-    );
-  }
+    </div>
+  );
 }
 
 export default Result;
