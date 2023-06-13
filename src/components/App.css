@@ -113,10 +113,6 @@ body,
   align-items: center;
 }
 
-#sidebar {
-  /* width: 180px; */
-}
-
 #board-area {
   width: 380px;
 }
