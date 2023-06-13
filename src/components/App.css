@@ -164,6 +164,14 @@ body,
   text-align: center;
 }
 
+.highlightName{
+  background-image: url("../Image/name_frame.gif");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  border-radius: 5px;
+}
+
 .vs {
   width: 30px;
 }

@@ -143,7 +143,15 @@ function App() {
             <SetupPlayers player={P1} handleChangeName={handleChangeName} />
           ) : (
             //after the game started, name shows up and cannot edit.
-            <div className="name font-large">{P1.name}</div>
+            <>
+              {gameStatus === STATUS.SETUP_P1 ||
+              gameStatus === STATUS.ON_GAME_P1 ||
+              gameStatus === STATUS.ON_GAME_SWITCH_P1 ? (
+                <div className="name font-large highlightName">{P1.name}</div>
+              ) : (
+                <div className="name font-large">{P1.name}</div>
+              )}
+            </>
           )}
 
           <div className="vs font-large">vs</div>
@@ -168,7 +176,15 @@ function App() {
               </>
             )
           ) : (
-            <div className="name font-large">{P2.name}</div>
+            <>
+              {gameStatus === STATUS.SETUP_P2 ||
+              gameStatus === STATUS.ON_GAME_P2 ||
+              gameStatus === STATUS.ON_GAME_SWITCH_P2 ? (
+                <div className="name font-large highlightName">{P2.name}</div>
+              ) : (
+                <div className="name font-large">{P2.name}</div>
+              )}
+            </>
           )}
         </div>
 
